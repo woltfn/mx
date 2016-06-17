@@ -63,7 +63,7 @@ wget -O /usr/bin/badvpn-udpgw "https://github.com/evandro5/utnubu/raw/master/bad
 apt-get -y install dropbear && sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear && sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=109/g' /etc/default/dropbear && sed -i 's/DROPBEAR_EXTRA_ARGS=/DROPBEAR_EXTRA_ARGS="-p 22"/g' /etc/default/dropbear && echo "/bin/false" >> /etc/shells && echo "/usr/sbin/nologin" >> /etc/shells
 
 # Instalar openvpn
-apt-get -y install openvpn && wget -O /etc/openvpn/openvpn.tar "https://github.com/evandro5/utnubu/raw/master/openvpn-ubuntu.tar" && cd /etc/openvpn/ && tar xf openvpn.tar && service openvpn restart && wget -O /etc/openvpn/1194-client.ovpn "http://e-repo.esy.es/script/1194-client.conf" && sed -i $MYIP2 /etc/openvpn/1194-client.ovpn && cd
+apt-get -y install openvpn && wget -O /etc/openvpn/openvpn.tar "https://github.com/evandro5/utnubu/raw/master/openvpn-ubuntu.tar" && cd /etc/openvpn/ && tar xf openvpn.tar && service openvpn restart && wget -O /etc/openvpn/cliente.ovpn "http://e-repo.esy.es/script/1194-client.conf" && sed -i $MYIP2 /etc/openvpn/1194-client.ovpn && cd
 
 # Instalar iptables-persistent
 apt-get -y install iptables-persistent
@@ -89,7 +89,7 @@ iptables -P INPUT DROP
 invoke-rc.d iptables-persistent save
 
 # Instalar fail2ban
-apt-get -y install fail2ban && wget -O /etc/fail2ban/jail.conf "http://e-repo.esy.es/script/jail.conf" && sed -i $MYIP2 /etc/fail2ban/jail.conf && service fail2ban restart
+apt-get -y install fail2ban && wget -O /etc/fail2ban/jail.conf "https://github.com/evandro5/utnubu/raw/master/jail.conf" && sed -i $MYIP2 /etc/fail2ban/jail.conf && service fail2ban restart
 
 # Baixar scripts
 cd
