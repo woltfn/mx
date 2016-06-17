@@ -119,7 +119,7 @@ echo "* * * * * root sleep 40; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
 echo "* * * * * root sleep 45; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
 echo "* * * * * root sleep 50; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
 echo "* * * * * root sleep 55; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
-echo "0 */6 * * * root /sbin/reboot" > /etc/cron.d/reboot
+echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
 echo "* * * * * service dropbear restart" > /etc/cron.d/dropbear
 echo "@reboot root /root/autokill.sh" > /etc/cron.d/autokill
 sed -i '$ i\screen -AmdS check /root/autokill.sh' /etc/rc.local
