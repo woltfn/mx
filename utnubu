@@ -1,0 +1,187 @@
+#!/bin/sh
+
+#Por Evandro§ baseado no código de Mikodemos
+
+# Preparando
+export DEBIAN_FRONTEND=noninteractive
+MYIP=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0'`;
+MYIP2="s/xxxxxxxxx/$MYIP/g";
+
+cd
+
+# Ativar Encaminhamento IPV4
+sysctl -w net.ipv4.ip_forward=1 && sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
+
+# Desativar IPV6
+echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf && echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6 && sed -i '$ i\echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6' /etc/rc.local
+
+# Remover Pacotes 
+apt-get -y --purge remove samba* && apt-get -y --purge remove apache2* && apt-get -y --purge remove sendmail* && apt-get -y --purge remove postfix* && apt-get -y --purge remove bind9* && apt-get -y --purge remove openssh* && apt-get -y autoremove;
+
+# Atualizar
+apt-get update && apt-get -y upgrade;
+
+# Instalar Ferramentas
+apt-get -y install iptables && apt-get -y install iftop && apt-get -y install htop && apt-get -y install nethogs && apt-get -y install apt-file && apt-get -y install ngrep && apt-get -y install screen;
+
+# Desativar exim
+service exim4 stop && sysv-rc-conf exim4 off
+
+# Atualizar apt-file
+apt-file update
+
+# Instalar screenfetch
+cd && wget -O /usr/bin/screenfetch "http://e-repo.esy.es/script/screeftech" && chmod +x /usr/bin/screenfetch && echo "clear" >> .profile && echo "screenfetch" >> .profile
+
+# Instalar squid3
+apt-get -y install squid3 && mv /etc/squid3/squid.conf /etc/squid3/squid.conf.ori && touch /etc/squid3/squid.conf && echo "acl localhost src 127.0.0.1/32 ::1
+acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
+acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
+acl SSL_ports port 443
+acl Safe_ports port 80 443 70 210 1025-65535 280 488 591 777
+acl CONNECT method CONNECT
+acl HEAD method HEAD
+acl OPTIONS method OPTIONS
+acl GET method GET
+http_access allow SSH
+http_access allow HEAD
+http_access allow OPTIONS
+http_access allow GET
+http_access allow localhost
+http_access deny all
+http_port 80
+coredump_dir /var/spool/squid3
+refresh_pattern ^ftp: 1440 20% 10080
+refresh_pattern ^gopher: 1440 0% 1440
+refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
+refresh_pattern . 0 20% 4320" >> /etc/squid3/squid.conf && sed -i $MYIP2 /etc/squid3/squid.conf;
+
+# Instalar badvpn
+wget -O /usr/bin/badvpn-udpgw "http://e-repo.esy.es/script/badvpn-udpgw" && sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local && chmod +x /usr/bin/badvpn-udpgw && screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
+
+# Instalar dropbear
+apt-get -y install dropbear && sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear && sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=109/g' /etc/default/dropbear && sed -i 's/DROPBEAR_EXTRA_ARGS=/DROPBEAR_EXTRA_ARGS="-p 22"/g' /etc/default/dropbear && echo "/bin/false" >> /etc/shells && echo "/usr/sbin/nologin" >> /etc/shells
+
+# Instalar openvpn
+apt-get -y install openvpn && wget -O /etc/openvpn/openvpn.tar "http://e-repo.esy.es/script/openvpn-debian.tar" && cd /etc/openvpn/ && tar xf openvpn.tar && wget -O /etc/openvpn/1194.conf "http://e-repo.esy.es/script/1194.conf" && service openvpn restart && wget -O /etc/openvpn/1194-client.ovpn "http://e-repo.esy.es/script/1194-client.conf" && sed -i $MYIP2 /etc/openvpn/1194-client.ovpn && cd
+
+# Instalar iptables-persistent
+apt-get -y install iptables-persistent
+
+iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG NONE -j DROP
+iptables -A INPUT -p tcp -m tcp ! --tcp-flags FIN,SYN,RST,ACK SYN -m state --state NEW -j DROP
+iptables -A INPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG FIN,SYN,RST,PSH,ACK,URG -j DROP
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 7300 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 7300 -j ACCEPT
+iptables -A INPUT -p udp -m udp --dport 7300 -j ACCEPT
+iptables -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -s 192.168.100.0/255.255.255.0 -j ACCEPT
+iptables -A FORWARD -j REJECT --reject-with icmp-port-unreachable
+iptables -t nat -A POSTROUTING -s 192.168.100.0/24 -o eth0 -j MASQUERADE
+iptables -P OUTPUT ACCEPT
+iptables -P INPUT DROP
+
+invoke-rc.d iptables-persistent save
+
+# Instalar fail2ban
+apt-get -y install fail2ban && wget -O /etc/fail2ban/jail.conf "http://e-repo.esy.es/script/jail.conf" && sed -i $MYIP2 /etc/fail2ban/jail.conf && service fail2ban restart
+
+# Baixar scripts
+cd
+wget -O speedtest_cli.py "http://e-repo.esy.es/script/speedtest_cli.py"
+wget -O bench-network.sh "http://e-repo.esy.es/script/bench-network.sh"
+wget -O ps_mem.py "http://e-repo.esy.es/script/ps_mem.py"
+wget -O dropmon "http://e-repo.esy.es/script/dropmon.sh"
+wget -O userlogin.sh "http://e-repo.esy.es/script/userlogin.sh"
+wget -O userexpired.sh "http://e-repo.esy.es/script/userexpired.sh"
+wget -O userlimit.sh "http://e-repo.esy.es/script/userlimit.sh"
+wget -O expire.sh "http://e-repo.esy.es/script/expire.sh"
+wget -O autokill.sh "http://e-repo.esy.es/script/autokill.sh"
+wget -O add-user.sh "http://e-repo.esy.es/script/add-user.sh"
+wget -O trial.sh "http://e-repo.esy.es/script/trial.sh"
+
+echo "@reboot root /root/userexpired.sh" > /etc/cron.d/userexpired
+echo "@reboot root /root/userlimit.sh 2" >> /etc/cron.d/userlimit
+echo "* * * * * root /root/userlimit.sh 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 5; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 10; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 15; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 20; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 25; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 30; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 35; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 40; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 45; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 50; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 55; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
+echo "0 */6 * * * root /sbin/reboot" > /etc/cron.d/reboot
+echo "* * * * * service dropbear restart" > /etc/cron.d/dropbear
+echo "@reboot root /root/autokill.sh" > /etc/cron.d/autokill
+sed -i '$ i\screen -AmdS check /root/autokill.sh' /etc/rc.local
+chmod +x bench-network.sh
+chmod +x speedtest_cli.py
+chmod +x ps_mem.py
+chmod +x userlogin.sh
+chmod +x userexpired.sh
+chmod +x userlimit.sh
+chmod +x autokill.sh
+chmod +x dropmon
+chmod +x expire.sh
+chmod +x add-user.sh
+chmod +x trial.sh
+
+groupadd cients
+
+# Finalizando
+service dropbear restart
+service fail2ban restart
+service squid3 restart
+service openvpn restart
+rm -rf ~/.bash_history && history -c
+echo "unset HISTFILE" >> /etc/profile
+
+# info
+clear
+echo "AUTOSCRIPT INCLUDES"
+echo "==============================================="
+echo "" 
+echo "SERVICOS" 
+echo "-------" 
+echo "Dropbear : 443, 22" 
+echo "Squid   : 80(limit to IP SSH)" 
+echo "badvpn   : badvpn-udpgw port 7300" 
+echo "Fail2Ban : protect SSH brute force" 
+echo "" 
+echo "FERRAMENTAS" 
+echo "-----" 
+echo "htop" 
+echo "iftop" 
+echo "rkhunter" 
+echo "nethogs: nethogs" 
+echo "" 
+echo "SCRIPTS" 
+echo "------" 
+echo "screenfetch" 
+echo "./ps_mem.py" 
+echo "./speedtest_cli.py --share" 
+echo "./bench-network.sh" 
+echo "./userlogin.sh" 
+echo "./userexpired.sh" 
+echo "./userlimit.sh 2 [limit max 2 login]" 
+echo "sh dropmon [port] example: sh dropmon 443" 
+echo "" 
+echo "Mais infos" 
+echo "----------" 
+echo "Fail2Ban : [on]" 
+echo "IPv6     : [off]" 
+echo "" 
+echo "" 
+echo "REINICIE AGORA / REBOOT NOW" 
+echo "" 
+echo "===============================================" 
+cd
