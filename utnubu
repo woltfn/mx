@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#Por Evandro§ baseado no código de Mikodemos
+#Por EvandroÂ§ baseado no cÃ³digo de Mikodemos
 
 # Preparando
 export DEBIAN_FRONTEND=noninteractive
@@ -147,23 +147,18 @@ echo "unset HISTFILE" >> /etc/profile
 
 # info
 clear
-echo "AUTOSCRIPT INCLUDES"
-echo "==============================================="
-echo "" 
 echo "SERVICOS" 
 echo "-------" 
 echo "Dropbear : 443, 22" 
 echo "Squid   : 80(limit to IP SSH)" 
 echo "badvpn   : badvpn-udpgw port 7300" 
 echo "Fail2Ban : protect SSH brute force" 
-echo "" 
 echo "FERRAMENTAS" 
 echo "-----" 
 echo "htop" 
 echo "iftop" 
 echo "rkhunter" 
 echo "nethogs: nethogs" 
-echo "" 
 echo "SCRIPTS" 
 echo "------" 
 echo "screenfetch" 
@@ -174,14 +169,8 @@ echo "./userlogin.sh"
 echo "./userexpired.sh" 
 echo "./userlimit.sh 2 [limit max 2 login]" 
 echo "sh dropmon [port] example: sh dropmon 443" 
-echo "" 
-echo "Mais infos" 
-echo "----------" 
 echo "Fail2Ban : [on]" 
-echo "IPv6     : [off]" 
-echo "" 
-echo "" 
+echo "===============================================" 
 echo "REINICIE AGORA / REBOOT NOW" 
-echo "" 
 echo "===============================================" 
 cd
