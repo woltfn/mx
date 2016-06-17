@@ -101,9 +101,9 @@ wget -O userlogin.sh "https://github.com/evandro5/utnubu/raw/master/userlogin.sh
 wget -O userexpired.sh "https://github.com/evandro5/utnubu/raw/master/userexpired.sh"
 wget -O userlimit.sh "https://github.com/evandro5/utnubu/raw/master/userlimit.sh"
 wget -O expire.sh "https://github.com/evandro5/utnubu/raw/master/expire.sh"
-wget -O autokill.sh "http://e-repo.esy.es/script/autokill.sh"
-wget -O add-user.sh "http://e-repo.esy.es/script/add-user.sh"
-wget -O trial.sh "http://e-repo.esy.es/script/trial.sh"
+wget -O autokill.sh "https://github.com/evandro5/utnubu/raw/master/autokill.sh"
+wget -O add-user.sh "https://github.com/evandro5/utnubu/raw/master/add-user.sh"
+wget -O trial.sh "https://github.com/evandro5/utnubu/raw/master/trial.sh"
 
 echo "@reboot root /root/userexpired.sh" > /etc/cron.d/userexpired
 echo "@reboot root /root/userlimit.sh 2" >> /etc/cron.d/userlimit
