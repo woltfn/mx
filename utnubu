@@ -63,7 +63,7 @@ wget -O /usr/bin/badvpn-udpgw "https://github.com/evandro5/utnubu/raw/master/bad
 apt-get -y install dropbear && sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear && sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=109/g' /etc/default/dropbear && sed -i 's/DROPBEAR_EXTRA_ARGS=/DROPBEAR_EXTRA_ARGS="-p 22"/g' /etc/default/dropbear && echo "/bin/false" >> /etc/shells && echo "/usr/sbin/nologin" >> /etc/shells
 
 # Instalar openvpn
-apt-get -y install openvpn && wget -O /etc/openvpn/openvpn.tar "https://github.com/evandro5/utnubu/raw/master/openvpn-ubuntu.tar" && cd /etc/openvpn/ && tar xf openvpn.tar && service openvpn restart && wget -O /etc/openvpn/cliente.ovpn "http://e-repo.esy.es/script/1194-client.conf" && sed -i $MYIP2 /etc/openvpn/1194-client.ovpn && cd
+apt-get -y install openvpn && wget -O /etc/openvpn/openvpn.tar "https://github.com/evandro5/utnubu/raw/master/openvpn-ubuntu.tar" && cd /etc/openvpn/ && tar xf openvpn.tar && service openvpn restart && wget -O /etc/openvpn/cliente.ovpn "https://github.com/evandro5/utnubu/raw/master/cliente.conf" && sed -i $MYIP2 /etc/openvpn/cliente.ovpn && cd
 
 # Instalar iptables-persistent
 apt-get -y install iptables-persistent
@@ -93,14 +93,14 @@ apt-get -y install fail2ban && wget -O /etc/fail2ban/jail.conf "https://github.c
 
 # Baixar scripts
 cd
-wget -O speedtest_cli.py "http://e-repo.esy.es/script/speedtest_cli.py"
-wget -O bench-network.sh "http://e-repo.esy.es/script/bench-network.sh"
-wget -O ps_mem.py "http://e-repo.esy.es/script/ps_mem.py"
-wget -O dropmon "http://e-repo.esy.es/script/dropmon.sh"
-wget -O userlogin.sh "http://e-repo.esy.es/script/userlogin.sh"
-wget -O userexpired.sh "http://e-repo.esy.es/script/userexpired.sh"
-wget -O userlimit.sh "http://e-repo.esy.es/script/userlimit.sh"
-wget -O expire.sh "http://e-repo.esy.es/script/expire.sh"
+wget -O speedtest_cli.py "https://raw.githubusercontent.com/evandro5/utnubu/master/speedtest_cli.py"
+wget -O bench-network.sh "https://raw.githubusercontent.com/evandro5/utnubu/master/bench-network.sh"
+wget -O ps_mem.py "https://github.com/evandro5/utnubu/raw/master/ps_mem.py"
+wget -O dropmon "https://github.com/evandro5/utnubu/raw/master/dropmon.sh"
+wget -O userlogin.sh "https://github.com/evandro5/utnubu/raw/master/userlogin.sh"
+wget -O userexpired.sh "https://github.com/evandro5/utnubu/raw/master/userexpired.sh"
+wget -O userlimit.sh "https://github.com/evandro5/utnubu/raw/master/userlimit.sh"
+wget -O expire.sh "https://github.com/evandro5/utnubu/raw/master/expire.sh"
 wget -O autokill.sh "http://e-repo.esy.es/script/autokill.sh"
 wget -O add-user.sh "http://e-repo.esy.es/script/add-user.sh"
 wget -O trial.sh "http://e-repo.esy.es/script/trial.sh"
