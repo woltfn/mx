@@ -22,7 +22,7 @@ apt-get -y --purge remove samba* && apt-get -y --purge remove apache2* && apt-ge
 apt-get update && apt-get -y upgrade;
 
 # Instalar Ferramentas
-apt-get -y install iptables && apt-get -y install iftop && apt-get -y install htop && apt-get -y install nethogs && apt-get -y install apt-file && apt-get -y install ngrep && apt-get -y install screen;
+apt-get -y install iptables && apt-get -y install iftop && apt-get -y install htop && apt-get -y install nethogs && apt-get -y install apt-file && apt-get -y install ngrep && apt-get -y install screen && apt-get -y install zlib1g-dev && apt-get -y install make;
 
 # Desativar exim
 service exim4 stop && sysv-rc-conf exim4 off
@@ -68,7 +68,6 @@ wget --no-check-certificate -O /usr/bin/badvpn-udpgw "https://github.com/evandro
 apt-get -y install dropbear && sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear && sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=109/g' /etc/default/dropbear && sed -i 's/DROPBEAR_EXTRA_ARGS=/DROPBEAR_EXTRA_ARGS="-p 22"/g' /etc/default/dropbear && echo "/bin/false" >> /etc/shells && echo "/usr/sbin/nologin" >> /etc/shells
 
 # Upgrade dropbear 
-apt-get install zlib1g-dev
 wget --no-check-certificate https://matt.ucc.asn.au/dropbear/releases/dropbear-2016.73.tar.bz2
 bzip2 -cd dropbear-2016.73.tar.bz2  | tar xvf -
 cd dropbear-2016.73
