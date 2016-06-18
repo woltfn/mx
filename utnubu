@@ -32,7 +32,7 @@ apt-file update
 
 # Instalar screenfetch
 cd
-wget https://github.com/KittyKatt/screenFetch/raw/master/screenfetch-dev
+wget --no-check-certificate https://github.com/KittyKatt/screenFetch/raw/master/screenfetch-dev
 mv screenfetch-dev /usr/bin/screenfetch
 chmod +x /usr/bin/screenfetch
 echo "clear" >> .bash_profile
@@ -62,13 +62,13 @@ refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
 refresh_pattern . 0 20% 4320" >> /etc/squid3/squid.conf && sed -i $MYIP2 /etc/squid3/squid.conf;
 
 # Instalar badvpn
-wget -O /usr/bin/badvpn-udpgw "https://github.com/evandro5/utnubu/raw/master/badvpn-udpgw" && sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local && chmod +x /usr/bin/badvpn-udpgw && screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
+wget --no-check-certificate -O /usr/bin/badvpn-udpgw "https://github.com/evandro5/utnubu/raw/master/badvpn-udpgw" && sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local && chmod +x /usr/bin/badvpn-udpgw && screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
 
 # Instalar dropbear
 apt-get -y install dropbear && sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear && sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=109/g' /etc/default/dropbear && sed -i 's/DROPBEAR_EXTRA_ARGS=/DROPBEAR_EXTRA_ARGS="-p 22"/g' /etc/default/dropbear && echo "/bin/false" >> /etc/shells && echo "/usr/sbin/nologin" >> /etc/shells
 
 # Instalar openvpn
-apt-get -y install openvpn && wget -O /etc/openvpn/openvpn.tar "https://github.com/evandro5/utnubu/raw/master/openvpn-ubuntu.tar" && cd /etc/openvpn/ && tar xf openvpn.tar && service openvpn restart && wget -O /etc/openvpn/cliente.ovpn "https://github.com/evandro5/utnubu/raw/master/cliente.conf" && sed -i $MYIP2 /etc/openvpn/cliente.ovpn && cd
+apt-get -y install openvpn && wget --no-check-certificate -O /etc/openvpn/openvpn.tar "https://github.com/evandro5/utnubu/raw/master/openvpn-ubuntu.tar" && cd /etc/openvpn/ && tar xf openvpn.tar && service openvpn restart && wget --no-check-certificate -O /etc/openvpn/cliente.ovpn "https://github.com/evandro5/utnubu/raw/master/cliente.conf" && sed -i $MYIP2 /etc/openvpn/cliente.ovpn && cd
 
 # Instalar iptables-persistent
 apt-get -y install iptables-persistent
@@ -94,21 +94,21 @@ iptables -P INPUT DROP
 invoke-rc.d iptables-persistent save
 
 # Instalar fail2ban
-apt-get -y install fail2ban && wget -O /etc/fail2ban/jail.conf "https://github.com/evandro5/utnubu/raw/master/jail.conf" && sed -i $MYIP2 /etc/fail2ban/jail.conf && service fail2ban restart
+apt-get -y install fail2ban && wget --no-check-certificate -O /etc/fail2ban/jail.conf "https://github.com/evandro5/utnubu/raw/master/jail.conf" && sed -i $MYIP2 /etc/fail2ban/jail.conf && service fail2ban restart
 
 # Baixar scripts
 cd
-wget -O speedtest_cli.py "https://raw.githubusercontent.com/evandro5/utnubu/master/speedtest_cli.py"
-wget -O bench-network.sh "https://raw.githubusercontent.com/evandro5/utnubu/master/bench-network.sh"
-wget -O ps_mem.py "https://github.com/evandro5/utnubu/raw/master/ps_mem.py"
-wget -O dropmon "https://github.com/evandro5/utnubu/raw/master/dropmon.sh"
-wget -O userlogin.sh "https://github.com/evandro5/utnubu/raw/master/userlogin.sh"
-wget -O userexpired.sh "https://github.com/evandro5/utnubu/raw/master/userexpired.sh"
-wget -O userlimit.sh "https://github.com/evandro5/utnubu/raw/master/userlimit.sh"
-wget -O expire.sh "https://github.com/evandro5/utnubu/raw/master/expire.sh"
-wget -O autokill.sh "https://github.com/evandro5/utnubu/raw/master/autokill.sh"
-wget -O add-user.sh "https://github.com/evandro5/utnubu/raw/master/add-user.sh"
-wget -O trial.sh "https://github.com/evandro5/utnubu/raw/master/trial.sh"
+wget --no-check-certificate -O speedtest_cli.py "https://raw.githubusercontent.com/evandro5/utnubu/master/speedtest_cli.py"
+wget --no-check-certificate -O bench-network.sh "https://raw.githubusercontent.com/evandro5/utnubu/master/bench-network.sh"
+wget --no-check-certificate -O ps_mem.py "https://github.com/evandro5/utnubu/raw/master/ps_mem.py"
+wget --no-check-certificate -O dropmon "https://github.com/evandro5/utnubu/raw/master/dropmon.sh"
+wget --no-check-certificate -O userlogin.sh "https://github.com/evandro5/utnubu/raw/master/userlogin.sh"
+wget --no-check-certificate -O userexpired.sh "https://github.com/evandro5/utnubu/raw/master/userexpired.sh"
+wget --no-check-certificate -O userlimit.sh "https://github.com/evandro5/utnubu/raw/master/userlimit.sh"
+wget --no-check-certificate -O expire.sh "https://github.com/evandro5/utnubu/raw/master/expire.sh"
+wget --no-check-certificate -O autokill.sh "https://github.com/evandro5/utnubu/raw/master/autokill.sh"
+wget --no-check-certificate -O add-user.sh "https://github.com/evandro5/utnubu/raw/master/add-user.sh"
+wget --no-check-certificate -O trial.sh "https://github.com/evandro5/utnubu/raw/master/trial.sh"
 
 echo "@reboot root /root/userexpired.sh" > /etc/cron.d/userexpired
 echo "@reboot root /root/userlimit.sh 2" >> /etc/cron.d/userlimit
