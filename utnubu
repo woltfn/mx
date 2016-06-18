@@ -31,7 +31,12 @@ service exim4 stop && sysv-rc-conf exim4 off
 apt-file update
 
 # Instalar screenfetch
-cd && wget -O /usr/bin/screenfetch "https://github.com/evandro5/utnubu/raw/master/screeftech-dev" && chmod +x /usr/bin/screenfetch && echo "clear" >> .profile && echo "screenfetch" >> .profile
+cd
+wget https://github.com/KittyKatt/screenFetch/raw/master/screenfetch-dev
+mv screenfetch-dev /usr/bin/screenfetch
+chmod +x /usr/bin/screenfetch
+echo "clear" >> .bash_profile
+echo "screenfetch" >> .bash_profile
 
 # Instalar squid3
 apt-get -y install squid3 && mv /etc/squid3/squid.conf /etc/squid3/squid.conf.ori && touch /etc/squid3/squid.conf && echo "acl localhost src 127.0.0.1/32 ::1
