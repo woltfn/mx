@@ -57,7 +57,7 @@ apt-get -y --purge remove samba* && apt-get -y --purge remove apache2* && apt-ge
 apt-get update && apt-get -y upgrade;
 
 # Instalar Ferramentas
-apt-get -y install iptables && apt-get -y install iftop && apt-get -y install htop && apt-get -y install nethogs && apt-get -y install apt-file && apt-get -y install ngrep && apt-get -y install screen && apt-get -y install zlib1g-dev && apt-get -y install make && apt-get -y install gcc;
+apt-get -y install iptables && apt-get -y install iftop && apt-get -y install htop && apt-get -y install nethogs && apt-get -y install apt-file && apt-get -y install ngrep && apt-get -y install screen && apt-get -y install zlib1g-dev && apt-get -y install make && apt-get -y install gcc && apt-get -y install build-essential;
 
 # Desativar exim para debian
 service exim4 stop && sysv-rc-conf exim4 off
