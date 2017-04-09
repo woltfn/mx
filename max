@@ -257,6 +257,7 @@ chmod +x /bin/sshmon
 rm -rf /bin/screeftech-dev 2>/dev/null
 wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/screeftech-dev > /bin/screeftech-dev
 chmod +x /bin/screeftech-dev
+
 groupadd cients
 
 # Finalizando
