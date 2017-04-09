@@ -1,4 +1,6 @@
 #!/bin/bash
+mkdir /etc/VpsPackdir 1>/dev/null 2>/dev/null
+mkdir /etc/VpsPackdir/senha 1>/dev/null 2>/dev/null
 echo "-----------------------------------"
 echo "  REGISTRO MAXTUNNEL  "
 echo "-----------------------------------"
