@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "-----------------------------------"
-echo "  REGISTRO TUNN3LLOVE  "
+echo "  REGISTRO MAXTUNNEL  "
 echo "-----------------------------------"
 echo -n "Username: "
 read akun
