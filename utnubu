@@ -75,6 +75,7 @@ echo "screenfetch" >> .bash_profile
 
 # Instalar squid3
 apt-get -y install squid3 && mv /etc/squid3/squid.conf /etc/squid3/squid.conf.ori && touch /etc/squid3/squid.conf && echo "acl localhost src 127.0.0.1/32 ::1
+acl vpspacketaccept dstdomain "/etc/payload"
 acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
 acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
 acl SSL_ports port 443
@@ -83,6 +84,7 @@ acl CONNECT method CONNECT
 acl HEAD method HEAD
 acl OPTIONS method OPTIONS
 acl GET method GET
+http_access allow vpspacketaccept
 http_access allow SSH
 http_access allow HEAD
 http_access allow OPTIONS
@@ -128,7 +130,7 @@ refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
 refresh_pattern . 0 20% 4320" >> /etc/squid3/squid.conf && sed -i $MYIP2 /etc/squid3/squid.conf;
 
 # Instalar badvpn
-wget --no-check-certificate -O /usr/bin/badvpn-udpgw "https://github.com/woltfn/mx/utnubu/raw/master/badvpn-udpgw" && sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local && chmod +x /usr/bin/badvpn-udpgw && screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
+wget --no-check-certificate -O /usr/bin/badvpn-udpgw "https://github.com/woltfn/mx/raw/master/badvpn-udpgw" && sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local && chmod +x /usr/bin/badvpn-udpgw && screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
 
 # Instalar dropbear
 apt-get -y install dropbear && sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear && sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=109/g' /etc/default/dropbear && sed -i 's/DROPBEAR_EXTRA_ARGS=/DROPBEAR_EXTRA_ARGS="-p 22"/g' /etc/default/dropbear && echo "/bin/false" >> /etc/shells && echo "/usr/sbin/nologin" >> /etc/shells
@@ -167,51 +169,51 @@ iptables -P INPUT DROP
 invoke-rc.d iptables-persistent save
 
 # Instalar fail2ban
-apt-get -y install fail2ban && wget --no-check-certificate -O /etc/fail2ban/jail.conf "https://github.com/evandro5/utnubu/raw/master/jail.conf" && sed -i $MYIP2 /etc/fail2ban/jail.conf && service fail2ban restart
+apt-get -y install fail2ban && wget --no-check-certificate -O /etc/fail2ban/jail.conf "https://github.com/woltfn/mx/raw/master/jail.conf" && sed -i $MYIP2 /etc/fail2ban/jail.conf && service fail2ban restart
 
 # Baixar scripts
 cd
-wget --no-check-certificate -O speedtest_cli.py "https://raw.githubusercontent.com/evandro5/utnubu/master/speedtest_cli.py"
-wget --no-check-certificate -O bench-network.sh "https://raw.githubusercontent.com/evandro5/utnubu/master/bench-network.sh"
-wget --no-check-certificate -O ps_mem.py "https://github.com/evandro5/utnubu/raw/master/ps_mem.py"
-wget --no-check-certificate -O dropmon "https://github.com/evandro5/utnubu/raw/master/dropmon.sh"
-wget --no-check-certificate -O userlogin.sh "https://github.com/evandro5/utnubu/raw/master/userlogin.sh"
-wget --no-check-certificate -O userexpired.sh "https://github.com/evandro5/utnubu/raw/master/userexpired.sh"
-wget --no-check-certificate -O userlimit.sh "https://github.com/evandro5/utnubu/raw/master/userlimit.sh"
-wget --no-check-certificate -O expire.sh "https://github.com/evandro5/utnubu/raw/master/expire.sh"
-wget --no-check-certificate -O autokill.sh "https://github.com/evandro5/utnubu/raw/master/autokill.sh"
-wget --no-check-certificate -O add-user.sh "https://github.com/evandro5/utnubu/raw/master/add-user.sh"
-wget --no-check-certificate -O trial.sh "https://github.com/evandro5/utnubu/raw/master/trial.sh"
+wget --no-check-certificate -O speedtest_cli.py "https://raw.githubusercontent.com/woltfn/mx/master/speedtest_cli.py"
+wget --no-check-certificate -O bench-network "https://raw.githubusercontent.com/woltfn/mx/master/bench-network"
+wget --no-check-certificate -O ps_mem.py "https://github.com/woltfn/mx/raw/master/ps_mem.py"
+wget --no-check-certificate -O dropmon "https://github.com/woltfn/mx/raw/master/dropmon"
+wget --no-check-certificate -O userlogin "https://github.com/woltfn/mx/raw/master/userlogin"
+wget --no-check-certificate -O userexpired "https://github.com/woltfn/mx/raw/master/userexpired"
+wget --no-check-certificate -O userlimit "https://github.com/woltfn/mx/raw/master/userlimit"
+wget --no-check-certificate -O expire "https://github.com/woltfn/mx/raw/master/expire"
+wget --no-check-certificate -O autokill "https://github.com/woltfn/mx/raw/master/autokill"
+wget --no-check-certificate -O add-user"https://github.com/woltfn/mx/raw/master/add-user"
+wget --no-check-certificate -O trial "https://github.com/woltfn/mx/raw/master/trial"
 
-echo "@reboot root /root/userexpired.sh" > /etc/cron.d/userexpired
-echo "@reboot root /root/userlimit.sh 2" >> /etc/cron.d/userlimit
-echo "* * * * * root /root/userlimit.sh 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 5; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 10; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 15; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 20; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 25; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 30; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 35; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 40; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 45; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 50; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 55; /root/userlimit.sh 2" >> /etc/cron.d/userlimit
+echo "@reboot root /root/userexpired" > /etc/cron.d/userexpired
+echo "@reboot root /root/userlimit 2" >> /etc/cron.d/userlimit
+echo "* * * * * root /root/userlimit 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 5; /root/userlimit 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 10; /root/userlimit 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 15; /root/userlimit 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 20; /root/userlimit 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 25; /root/userlimit 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 30; /root/userlimit 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 35; /root/userlimit 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 40; /root/userlimit 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 45; /root/userlimit 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 50; /root/userlimit 2" >> /etc/cron.d/userlimit
+echo "* * * * * root sleep 55; /root/userlimit 2" >> /etc/cron.d/userlimit
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
 echo "* * * * * service dropbear restart" > /etc/cron.d/dropbear
 echo "@reboot root /root/autokill.sh" > /etc/cron.d/autokill
 sed -i '$ i\screen -AmdS check /root/autokill.sh' /etc/rc.local
-chmod +x bench-network.sh
+chmod +x bench-network
 chmod +x speedtest_cli.py
 chmod +x ps_mem.py
-chmod +x userlogin.sh
-chmod +x userexpired.sh
-chmod +x userlimit.sh
-chmod +x autokill.sh
+chmod +x userlogin
+chmod +x userexpired
+chmod +x userlimit
+chmod +x autokill
 chmod +x dropmon
-chmod +x expire.sh
-chmod +x add-user.sh
-chmod +x trial.sh
+chmod +x expire
+chmod +x add-user
+chmod +x trial
 
 groupadd cients
 
