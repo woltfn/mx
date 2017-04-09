@@ -1,6 +1,5 @@
 #!/bin/sh
 
-#Por MX baseado no código de Mikodemos
 
 # Preparando
 export DEBIAN_FRONTEND=noninteractive
@@ -179,7 +178,7 @@ wget --no-check-certificate -O ps_mem.py "https://github.com/woltfn/mx/raw/maste
 wget --no-check-certificate -O dropmon "https://github.com/woltfn/mx/raw/master/dropmon"
 wget --no-check-certificate -O userlogin "https://github.com/woltfn/mx/raw/master/userlogin"
 wget --no-check-certificate -O userexpired "https://github.com/woltfn/mx/raw/master/userexpired"
-wget --no-check-certificate -O userlimit "https://github.com/woltfn/mx/raw/master/userlimit"
+wget --no-check-certificate -O limit "https://github.com/woltfn/mx/raw/master/userlimit"
 wget --no-check-certificate -O expire "https://github.com/woltfn/mx/raw/master/expire"
 wget --no-check-certificate -O autokill "https://github.com/woltfn/mx/raw/master/autokill"
 wget --no-check-certificate -O cadastro "https://github.com/woltfn/mx/raw/master/cadastro"
@@ -191,7 +190,7 @@ chmod +x speedtest_cli.py
 chmod +x ps_mem.py
 chmod +x userlogin
 chmod +x userexpired
-chmod +x userlimit
+chmod +x limit
 chmod +x autokill
 chmod +x dropmon
 chmod +x expire
@@ -230,7 +229,7 @@ echo "./speedtest_cli.py --share"
 echo "./bench-network" 
 echo "./userlogin" 
 echo "./userexpired" 
-echo "./userlimit 2 [limit max 2 login]" 
+
 echo "sh dropmon [port] example: sh dropmon 443" 
 echo "Fail2Ban : [on]" 
 echo "===============================================" 
