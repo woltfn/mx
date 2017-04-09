@@ -177,84 +177,84 @@ mkdir /etc/VpsPackdir/limite 2>/dev/null
 mkdir /etc/VpsPackdir/senha 2>/dev/null
 
 rm -rf /usr/bin/limit 2>/dev/null
-wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/limit > /bin/limit
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/limit > /usr/bin/limit
 chmod +x /usr/bin/limit
 
 rm -rf /usr/bin/cadastro 2>/dev/null
-wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/cadasto > /bin/cadastro
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/cadasto > /usr/bin/cadastro
 chmod +x /usr/bin/cadastro
 
 
 rm -rf /usr/bin/redefine 2>/dev/null
-wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/redefine > /bin/redefine
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/redefine > /usr/bin/redefine
 chmod +x /usr/bin/redefine
 
 rm -rf /usr/bin/userlogin 2>/dev/null
-wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/userlogin> /bin/userlogin
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/userlogin> /usr/bin/userlogin
 chmod +x /usr/bin/userlogin
 
 rm -rf /usr/bin/speedtest.py 2>/dev/null
-wget -o /dev/null -O- https://raw.githubusercontent.com/RicKbrL/VpsPack/master/speedtest.py > /bin/speedtest.py
+wget -o /dev/null -O- https://raw.githubusercontent.com/RicKbrL/VpsPack/master/speedtest.py > /usr/bin/speedtest.py
 chmod +x /usr/bin/speedtest.py
 
 rm -rf /usr/bin/bench-network 2>/dev/null
-wget -o /dev/null -O- https://raw.githubusercontent.com/woltfn/mx/master/bench-network > /bin/bench-network
+wget -o /dev/null -O- https://raw.githubusercontent.com/woltfn/mx/master/bench-network > /usr/bin/bench-network
 chmod +x /usr/bin/bench-network
 
 rm -rf /usr/bin/ps_mem.py 2>/dev/null
-wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/ps_mem.py > /bin/ps_mem.py
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/ps_mem.py > /usr/bin/ps_mem.py
 chmod +x /usr/bin/ps_mem.py
 
 rm -rf /usr/bin/dropmon 2>/dev/null
-wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/dropmon > /bin/dropmon
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/dropmon > /usr/bin/dropmon
 chmod +x /usr/bin/dropmon
 
 rm -rf /usr/bin/userexpired 2>/dev/null
-wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/userexpired> /bin/userexpired
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/userexpired> /usr/bin/userexpired
 chmod +x /usr/bin/userexpired
 
 rm -rf /usr/bin/expire 2>/dev/null
-wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/expire > /bin/expire
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/expire > /usr/bin/expire
 chmod +x /usr/bin/expire
 
 rm -rf /usr/bin/trial 2>/dev/null
-wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/trial > /bin/trial
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/trial > /usr/bin/trial
 chmod +x /usr/bin/trial
 
 rm -rf /usr/bin/deleteuser 2>/dev/null
-wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/deleteuser > /bin/deleteuser
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/deleteuser > /usr/bin/deleteuser
 chmod +x /usr/bin/deleteuser
 
 rm -rf /usr/bin/menu 2>/dev/null
-wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/menu > /bin/menu
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/menu > /usr/bin/menu
 chmod +x /usr/bin/menu
 
 rm -rf /usr/bin/backup-users 2>/dev/null
-wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/backup-users > /bin/backup-users
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/backup-users > /usr/bin/backup-users
 chmod +x /usr/bin/backup-users
 
 rm -rf /usr/bin/restusers 2>/dev/null
-wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/restusers > /bin/restusers
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/restusers > /usr/bin/restusers
 chmod +x /usr/bin/restusers
 
 rm -rf /usr/bin/speedtest 2>/dev/null
-wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/speedtest > /bin/speedtest
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/speedtest > /usr/bin/speedtest
 chmod +x /usr/bin/speedtest
 
 rm -rf /usr/bin/host 2>/dev/null
-wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/host > /bin/host
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/host > /usr/bin/host
 chmod +x /usr/bin/host
 
 rm -rf /usr/bin/monitorar 2>/dev/null
-wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/monitorar > /bin/monitorar
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/monitorar > /usr/bin/monitorar
 chmod +x /usr/bin/monitorar
 
 rm -rf /usr/bin/sshmon 2>/dev/null
-wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/sshmon > /bin/sshmon
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/sshmon > /usr/bin/sshmon
 chmod +x /usr/bin/sshmon
 
 rm -rf /usr/bin/screeftech-dev 2>/dev/null
-wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/screeftech-dev > /bin/screeftech-dev
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/screeftech-dev >/usr /bin/screeftech-dev
 chmod +x /usr/bin/screeftech-dev
 
 groupadd cients
