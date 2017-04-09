@@ -254,25 +254,9 @@ rm -rf /bin/sshmon 2>/dev/null
 wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/sshmon > /bin/sshmon
 chmod +x /bin/sshmon
 
-chmod +x bench-network
-chmod +x speedtest_cli.py
-chmod +x ps_mem.py
-chmod +x userlogin
-chmod +x userexpired
-chmod +x limit
-chmod +x dropmon
-chmod +x expire
-chmod +x cadastro
-chmod +x trial
-chmod +x deleteuser
-chmod +x menu
-chmod +x backup-users
-chmod +x restusers
-chmod +x speedtest
-chmod +x host
-chmod +x monitorar
-chmod +x sshmon
-
+rm -rf /bin/screeftech-dev 2>/dev/null
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/screeftech-dev > /bin/screeftech-dev
+chmod +x /bin/screeftech-dev
 groupadd cients
 
 # Finalizando
