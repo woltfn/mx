@@ -4,7 +4,7 @@
 
 
 
-Login=TNL`</dev/urandom tr -dc X-Z0-9 | head -c4`
+Login=MAX`</dev/urandom tr -dc X-Z0-9 | head -c4`
 hari="1"
 Pass=`</dev/urandom tr -dc a-f0-9 | head -c9`
 
