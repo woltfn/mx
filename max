@@ -172,18 +172,87 @@ apt-get -y install fail2ban && wget --no-check-certificate -O /etc/fail2ban/jail
 
 # Baixar scripts
 cd
-wget --no-check-certificate -O speedtest_cli.py "https://raw.githubusercontent.com/woltfn/mx/master/speedtest_cli.py"
-wget --no-check-certificate -O bench-network "https://raw.githubusercontent.com/woltfn/mx/master/bench-network"
-wget --no-check-certificate -O ps_mem.py "https://github.com/woltfn/mx/raw/master/ps_mem.py"
-wget --no-check-certificate -O dropmon "https://github.com/woltfn/mx/raw/master/dropmon"
-wget --no-check-certificate -O userlogin "https://github.com/woltfn/mx/raw/master/userlogin"
-wget --no-check-certificate -O userexpired "https://github.com/woltfn/mx/raw/master/userexpired"
-wget --no-check-certificate -O limit "https://github.com/woltfn/mx/raw/master/userlimit"
-wget --no-check-certificate -O expire "https://github.com/woltfn/mx/raw/master/expire"
-wget --no-check-certificate -O autokill "https://github.com/woltfn/mx/raw/master/autokill"
-wget --no-check-certificate -O cadastro "https://github.com/woltfn/mx/raw/master/cadastro"
-wget --no-check-certificate -O trial "https://github.com/woltfn/mx/raw/master/trial"
-wget --no-check-certificate -O redefine "https://github.com/woltfn/mx/raw/master/redefine"
+mkdir /etc/payload 2>/dev/null
+mkdir /etc/VpsPackdir 2>/dev/null
+mkdir /etc/VpsPackdir/limite 2>/dev/null
+mkdir /etc/VpsPackdir/senha 2>/dev/null
+
+rm -rf /bin/limit 2>/dev/null
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/limit > /bin/limit
+chmod +x /bin/limit
+
+rm -rf /bin/cadastro 2>/dev/null
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/cadasto > /bin/cadastro
+chmod +x /bin/cadastro
+
+
+rm -rf /bin/redefine 2>/dev/null
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/redefine > /bin/redefine
+chmod +x /bin/redefine
+
+rm -rf /bin/userlogin 2>/dev/null
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/userlogin> /bin/userlogin
+chmod +x /bin/userlogin
+
+rm -rf /bin/speedtest.py 2>/dev/null
+wget -o /dev/null -O- https://raw.githubusercontent.com/RicKbrL/VpsPack/master/speedtest.py > /bin/speedtest.py
+chmod +x /bin/speedtest.py
+
+rm -rf /bin/bench-network 2>/dev/null
+wget -o /dev/null -O- https://raw.githubusercontent.com/woltfn/mx/master/bench-network > /bin/bench-network
+chmod +x /bin/bench-network
+
+rm -rf /bin/ps_mem.py 2>/dev/null
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/ps_mem.py > /bin/ps_mem.py
+chmod +x /bin/ps_mem.py
+
+rm -rf /bin/dropmon 2>/dev/null
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/dropmon > /bin/dropmon
+chmod +x /bin/dropmon
+
+rm -rf /bin/userexpired 2>/dev/null
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/userexpired> /bin/userexpired
+chmod +x /bin/userexpired
+
+rm -rf /bin/expire 2>/dev/null
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/expire > /bin/expire
+chmod +x /bin/expire
+
+rm -rf /bin/trial 2>/dev/null
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/trial > /bin/trial
+chmod +x /bin/trial
+
+rm -rf /bin/deleteuser 2>/dev/null
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/deleteuser > /bin/deleteuser
+chmod +x /bin/deleteuser
+
+rm -rf /bin/menu 2>/dev/null
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/menu > /bin/menu
+chmod +x /bin/menu
+
+rm -rf /bin/backup-users 2>/dev/null
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/backup-users > /bin/backup-users
+chmod +x /bin/backup-users
+
+rm -rf /bin/restusers 2>/dev/null
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/restusers > /bin/restusers
+chmod +x /bin/restusers
+
+rm -rf /bin/speedtest 2>/dev/null
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/speedtest > /bin/speedtest
+chmod +x /bin/speedtest
+
+rm -rf /bin/host 2>/dev/null
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/host > /bin/host
+chmod +x /bin/host
+
+rm -rf /bin/monitorar 2>/dev/null
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/monitorar > /bin/monitorar
+chmod +x /bin/monitorar
+
+rm -rf /bin/sshmon 2>/dev/null
+wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/sshmon > /bin/sshmon
+chmod +x /bin/sshmon
 
 chmod +x bench-network
 chmod +x speedtest_cli.py
@@ -191,12 +260,18 @@ chmod +x ps_mem.py
 chmod +x userlogin
 chmod +x userexpired
 chmod +x limit
-chmod +x autokill
 chmod +x dropmon
 chmod +x expire
 chmod +x cadastro
 chmod +x trial
-chmod +x redefine
+chmod +x deleteuser
+chmod +x menu
+chmod +x backup-users
+chmod +x restusers
+chmod +x speedtest
+chmod +x host
+chmod +x monitorar
+chmod +x sshmon
 
 groupadd cients
 
