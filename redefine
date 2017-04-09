@@ -1,0 +1,89 @@
+#!/bin/bash
+if which tput >/dev/null 2>&1; then
+      ncolors=$(tput colors)
+fi
+  if [ -t 1 ] && [ -n "$ncolors" ] && [ "$ncolors" -ge 8 ]; then
+    RED="$(tput setaf 1)"
+    GREEN="$(tput setaf 2)"
+    YELLOW="$(tput setaf 3)"
+    BLUE="$(tput setaf 4)"
+    BOLD="$(tput bold)"
+    NORMAL="$(tput sgr0)"
+  else
+    RED=""
+    GREEN=""
+    YELLOW=""
+    BLUE=""
+    BOLD=""
+    NORMAL=""
+  fi
+printf "${BLUE}${BOLD}"
+echo "==================================="
+printf "${NORMAL}${BOLD}"
+echo "  RENOVAÇÂO  "
+printf "${BLUE}${BOLD}"
+echo "==================================="
+printf "${NORMAL}${BOLD}"
+echo -n "Username: "
+read user
+
+usercheck=`grep -w $user /etc/passwd  | awk -F: '{print $1}'`
+
+	if [ "$usercheck" = "$user" ]; then
+		userexp=`chage -l $user | awk -F": " '{print $2}' | awk NR==4`
+		usd=`date -d "$userexp" +%Y%m%d`
+		nowa=`date +"%Y%m%d"`
+		IP=`ifconfig eth0| awk 'NR==2 {print $2}'| awk -F: '{print $2}'`
+		val=`date -d "$exp days" +"%d/%m/%Y"`
+		senha=`cat /usr/share/info/s | grep -w "User: $user"  | awk -F"senha: " '{print $2}' | awk  '{print $1}'`
+
+			if [ "$usd" -le "$nowa" ]; then
+				echo -n "Validade em dias: "
+				read exp
+				chage -E `date -d "$exp days" +"%Y-%m-%d"` $user
+				echo -e "$senha\n$senha\n"|passwd $user &> /dev/null
+				clientesctl &> /dev/null
+				printf "${GREEN}${BOLD}"
+				echo -e "==================================="
+				echo -e "        RENOVADO COM SUCESSO       "
+				echo -e "==================================="
+				echo -e "Username: $user "
+				echo -e "Válido até: $val"
+				echo -e "IP: $IP "
+				echo -e "PortaSSH: 443 "
+				echo -e "PortaSquid: 80 "
+				echo -e "==================================="
+				printf "${NORMAL}"	
+			else
+				echo -n "Validade em dias: "
+				read exp
+				padval=`chage -l $user | grep "Account expires" | awk -F": " '{print $2}'`
+				now=`date +"%b %d, %Y"`
+				dt1=`date -d "$padval" +"%j"`
+				dt2=`date -d "$now" +"%j"`
+				dif=`echo $(($dt1-$dt2))`
+				expok=`echo $(($dif+$exp))`
+				chage -E `date -d "$expok days" +"%Y-%m-%d"` $user
+				echo -e "$senha\n$senha\n"|passwd $user &> /dev/null
+				clientesctl &> /dev/null
+				printf "${GREEN}${BOLD}"
+				echo -e "==================================="
+				echo -e "        RENOVADO COM SUCESSO       "
+				echo -e "==================================="
+				echo -e "Username: $user "
+				echo -e "Válido até: $val"
+				echo -e "IP: $IP "
+				echo -e "PortaSSH: 443 "
+				echo -e "PortaSquid: 80 "
+				echo -e "==================================="
+				printf "${NORMAL}"
+			fi
+
+	else
+		printf "${RED}${BOLD}"
+		echo -e "==================================="
+		echo -e "     FALHA: USUÁRIO NÃO EXISTE      "
+		echo -e "==================================="
+		printf "${NORMAL}"
+	fi
+
