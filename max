@@ -184,7 +184,7 @@ wget --no-check-certificate -O expire "https://github.com/woltfn/mx/raw/master/e
 wget --no-check-certificate -O autokill "https://github.com/woltfn/mx/raw/master/autokill"
 wget --no-check-certificate -O add-user"https://github.com/woltfn/mx/raw/master/add-user"
 wget --no-check-certificate -O trial "https://github.com/woltfn/mx/raw/master/trial"
-
+wget --no-check-certificate -O redefine "https://github.com/woltfn/mx/raw/master/redefine"
 
 chmod +x bench-network
 chmod +x speedtest_cli.py
@@ -197,6 +197,7 @@ chmod +x dropmon
 chmod +x expire
 chmod +x add-user
 chmod +x trial
+chmod +x redefine
 
 groupadd cients
 
