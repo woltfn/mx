@@ -185,24 +185,7 @@ wget --no-check-certificate -O autokill "https://github.com/woltfn/mx/raw/master
 wget --no-check-certificate -O add-user"https://github.com/woltfn/mx/raw/master/add-user"
 wget --no-check-certificate -O trial "https://github.com/woltfn/mx/raw/master/trial"
 
-echo "@reboot root /root/userexpired" > /etc/cron.d/userexpired
-echo "@reboot root /root/userlimit 2" >> /etc/cron.d/userlimit
-echo "* * * * * root /root/userlimit 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 5; /root/userlimit 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 10; /root/userlimit 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 15; /root/userlimit 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 20; /root/userlimit 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 25; /root/userlimit 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 30; /root/userlimit 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 35; /root/userlimit 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 40; /root/userlimit 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 45; /root/userlimit 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 50; /root/userlimit 2" >> /etc/cron.d/userlimit
-echo "* * * * * root sleep 55; /root/userlimit 2" >> /etc/cron.d/userlimit
-echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
-echo "* * * * * service dropbear restart" > /etc/cron.d/dropbear
-echo "@reboot root /root/autokill.sh" > /etc/cron.d/autokill
-sed -i '$ i\screen -AmdS check /root/autokill.sh' /etc/rc.local
+
 chmod +x bench-network
 chmod +x speedtest_cli.py
 chmod +x ps_mem.py
@@ -221,7 +204,6 @@ groupadd cients
 service dropbear restart
 service fail2ban restart
 service squid3 restart
-service openvpn restart
 rm -rf ~/.bash_history && history -c
 echo "unset HISTFILE" >> /etc/profile
 
@@ -244,10 +226,10 @@ echo "------"
 echo "screenfetch" 
 echo "./ps_mem.py" 
 echo "./speedtest_cli.py --share" 
-echo "./bench-network.sh" 
-echo "./userlogin.sh" 
-echo "./userexpired.sh" 
-echo "./userlimit.sh 2 [limit max 2 login]" 
+echo "./bench-network" 
+echo "./userlogin" 
+echo "./userexpired" 
+echo "./userlimit 2 [limit max 2 login]" 
 echo "sh dropmon [port] example: sh dropmon 443" 
 echo "Fail2Ban : [on]" 
 echo "===============================================" 
