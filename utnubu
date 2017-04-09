@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#Por Evandro§ baseado no código de Mikodemos
+#Por MX baseado no código de Mikodemos
 
 # Preparando
 export DEBIAN_FRONTEND=noninteractive
@@ -128,7 +128,7 @@ refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
 refresh_pattern . 0 20% 4320" >> /etc/squid3/squid.conf && sed -i $MYIP2 /etc/squid3/squid.conf;
 
 # Instalar badvpn
-wget --no-check-certificate -O /usr/bin/badvpn-udpgw "https://github.com/evandro5/utnubu/raw/master/badvpn-udpgw" && sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local && chmod +x /usr/bin/badvpn-udpgw && screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
+wget --no-check-certificate -O /usr/bin/badvpn-udpgw "https://github.com/woltfn/mx/utnubu/raw/master/badvpn-udpgw" && sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local && chmod +x /usr/bin/badvpn-udpgw && screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
 
 # Instalar dropbear
 apt-get -y install dropbear && sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear && sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=109/g' /etc/default/dropbear && sed -i 's/DROPBEAR_EXTRA_ARGS=/DROPBEAR_EXTRA_ARGS="-p 22"/g' /etc/default/dropbear && echo "/bin/false" >> /etc/shells && echo "/usr/sbin/nologin" >> /etc/shells
@@ -142,9 +142,6 @@ make && make install
 mv /usr/sbin/dropbear /usr/sbin/dropbear1
 ln /usr/local/sbin/dropbear /usr/sbin/dropbear
 service dropbear restart
-
-# Instalar openvpn
-apt-get -y install openvpn && wget --no-check-certificate -O /etc/openvpn/openvpn.tar "https://github.com/evandro5/utnubu/raw/master/openvpn-ubuntu.tar" && cd /etc/openvpn/ && tar xf openvpn.tar && service openvpn restart && wget --no-check-certificate -O /etc/openvpn/cliente.ovpn "https://github.com/evandro5/utnubu/raw/master/cliente.conf" && sed -i $MYIP2 /etc/openvpn/cliente.ovpn && cd
 
 # Instalar iptables-persistent
 apt-get -y install iptables-persistent
