@@ -132,30 +132,8 @@ refresh_pattern . 0 20% 4320" >> /etc/squid3/squid.conf && sed -i $MYIP2 /etc/sq
 wget --no-check-certificate -O /usr/bin/badvpn-udpgw "https://github.com/woltfn/mx/raw/master/badvpn-udpgw" && sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local && chmod +x /usr/bin/badvpn-udpgw && screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
 
 # Instalar dropbear
-apt-get -y install dropbear && mv /etc/default/dropbear /etc/default/dropbear.ori && touch /etc/default/dropbear && echo 
-# disabled because OpenSSH is installed
-# change to NO_START=0 to enable Dropbear
-NO_START=0
+apt-get -y install dropbear && sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear && sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=109/g' /etc/default/dropbear && sed -i 's/DROPBEAR_EXTRA_ARGS=/DROPBEAR_EXTRA_ARGS="-p 22"/g' /etc/default/dropbear && echo "/bin/false" >> /etc/shells && echo "/usr/sbin/nologin" >> /etc/shells
 
-# the TCP port that Dropbear listens on
-DROPBEAR_PORT=443
-
-# any additional arguments for Dropbear
-#DROPBEAR_EXTRA_ARGS="-w -g"
-
-# specify an optional banner file containing a message to be
-# sent to clients before they connect, such as "/etc/issue.net"
-DROPBEAR_BANNER=""
-
-# RSA hostkey file (default: /etc/dropbear/dropbear_rsa_host_key)
-#DROPBEAR_RSAKEY="/etc/dropbear/dropbear_rsa_host_key"
-
-# DSS hostkey file (default: /etc/dropbear/dropbear_dss_host_key)
-#DROPBEAR_DSSKEY="/etc/dropbear/dropbear_dss_host_key"
-
-# Receive window size - this is a tradeoff between memory and
-# network performance
-DROPBEAR_RECEIVE_WINDOW=65536
 
 # Upgrade dropbear 
 wget --no-check-certificate https://matt.ucc.asn.au/dropbear/releases/dropbear-2016.73.tar.bz2
