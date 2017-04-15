@@ -1,6 +1,12 @@
 #!/bin/bash
 # OpenVPN road warrior installer for Debian, Ubuntu and CentOS
-
+touch /root/openclientes.db
+mkdir /etc/haboryn/
+mkdir /home/loginslimitados/
+mkdir /root/arquivosopenvpn/
+mkdir /home/opencliente/
+touch /etc/haboryn/backupOpenclientes.db
+clear
 # This script will work on Debian, Ubuntu, CentOS and probably other distros
 # of the same families, although no support is offered for them. It isn't
 # bulletproof but it will probably work if you simply want to setup a VPN on
@@ -39,7 +45,7 @@ elif [[ -e /etc/centos-release || -e /etc/redhat-release ]]; then
 	# Needed for CentOS 7
 	chmod +x /etc/rc.d/rc.local
 else
-	echo "Parece que você não está rodando este script no sistema Debian, Ubuntu ou CentOS."
+	echo "Este script roda somente em Distros: Debian, Ubuntu ou CentOS."
 	exit 5
 fi
 
@@ -67,123 +73,36 @@ IP=$(ip addr | grep 'inet' | grep -v inet6 | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,
 if [[ "$IP" = "" ]]; then
 		IP=$(wget -qO- ipv4.icanhazip.com)
 fi
-
-if [[ -e /etc/openvpn/server.conf ]]; then
-	while :
-	do
+echo -e '\033[05;31m-------------------------------------------------------\033[00;37m'
+echo -e '\033[01;32m              O que deseja fazer ?\033[00;37m'
+echo " "
+echo -e 'Digite: \033[01;32m1\033[00;37m para Instalar o OpenVPN.'
+echo " "
+echo -e 'Digite: \033[01;32m2\033[00;37m para Criar um usuário OpenVPN.'
+echo " "
+echo -e 'Digite: \033[01;32m3\033[00;37m para Deletar um usuário OpenVPN.'
+echo " "
+echo -e 'Digite: \033[01;32m4\033[00;37m para Desinstalar o OpenVPN.'
+echo " "
+echo -e 'Digite: \033[01;32m5\033[00;37m para renovar um usuário OpenVPN.'
+echo " "
+echo -e '\033[05;31m-------------------------------------------------------\033[00;37m'
+echo " "
+echo -e '\033[05;35mGostou do meu trabalho ?\033[00;37m'
+echo -e '\033[05;35mAjude para que esse meu projeto continue...\033[00;37m'
+echo -e '\033[05;35mDoe BTC para:\033[00;37m \033[05;33m32JFqnK9cyfJkHJd9tz2BkWKQHCRjBX3JC\033[00;37m'
+echo " "
+read -p "Responda: " -e -i 2 resposta
+if [[ "$resposta" = '1' ]]; then
 	clear
-		tput setaf 3 ; echo "Parece que o OpenVPN já está instalado." ; tput sgr0
-		echo ""
-		echo "O que você quer fazer?"
-		echo ""
-		tput setaf 6
-		echo "   1) Adicionar um certificado para um novo usuário"
-		echo "   2) Remover o certificado de um usuário existente"
-		echo "   3) Desinstalar o OpenVPN"
-		echo "   4) Sair"
-		tput sgr0
-		echo ""
-		read -p "Seleciona uma opção [1-4]: " option
-		case $option in
-			1) 
-			echo ""
-			echo "Diga-me um nome para criar o certificado do usuário."
-			echo "Por favor, use apenas uma única palavra, sem caracteres especiais."
-			echo ""
-			read -p "Nome do usuário: " -e -i cliente CLIENT
-			cd /etc/openvpn/easy-rsa/
-			./easyrsa build-client-full $CLIENT nopass
-			# Generates the custom client.ovpn
-			echo ""
-			newclient "$CLIENT"
-			echo ""
-			echo "O usuário $CLIENT foi adicionado, certificado disponível em ~/$CLIENT.ovpn"
-			exit
-			;;
-			2)
-			# This option could be documented a bit better and maybe even be simplimplified
-			# ...but what can I say, I want some sleep too
-			NUMBEROFCLIENTS=$(tail -n +2 /etc/openvpn/easy-rsa/pki/index.txt | grep -c "^V")
-			if [[ "$NUMBEROFCLIENTS" = '0' ]]; then
-				echo ""
-				echo "Você não tem nenhum usuário existente no OpenVPN!"
-				exit 6
-			fi
-			echo ""
-			echo "Selecione o certificado do usuário que deseja remover."
-			tail -n +2 /etc/openvpn/easy-rsa/pki/index.txt | grep "^V" | cut -d '=' -f 2 | nl -s ') '
-			if [[ "$NUMBEROFCLIENTS" = '1' ]]; then
-				read -p "Selecione um usuário [1]: " CLIENTNUMBER
-			else
-				read -p "Selecione um usuário [1-$NUMBEROFCLIENTS]: " CLIENTNUMBER
-			fi
-			CLIENT=$(tail -n +2 /etc/openvpn/easy-rsa/pki/index.txt | grep "^V" | cut -d '=' -f 2 | sed -n "$CLIENTNUMBER"p)
-			cd /etc/openvpn/easy-rsa/
-			./easyrsa --batch revoke $CLIENT
-			./easyrsa gen-crl
-			rm -rf pki/reqs/$CLIENT.req
-			rm -rf pki/private/$CLIENT.key
-			rm -rf pki/issued/$CLIENT.crt
-			rm -rf /etc/openvpn/crl.pem
-			cp /etc/openvpn/easy-rsa/pki/crl.pem /etc/openvpn/crl.pem
-			# CRL is read with each client connection, when OpenVPN is dropped to nobody
-			chown nobody:$GROUPNAME /etc/openvpn/crl.pem
-			echo ""
-			echo "Certificado para o usuário $CLIENT removido"
-			exit
-			;;
-			3) 
-			echo ""
-			read -p "Você realmente quer desinstalar o OpenVPN? [s/n]: " -e -i n REMOVE
-			if [[ "$REMOVE" = 's' ]]; then
-				PORT=$(grep '^port ' /etc/openvpn/server.conf | cut -d " " -f 2)
-				if pgrep firewalld; then
-					# Using both permanent and not permanent rules to avoid a firewalld reload.
-					firewall-cmd --zone=public --remove-port=$PORT/tcp
-					firewall-cmd --zone=trusted --remove-source=10.8.0.0/24
-					firewall-cmd --permanent --zone=public --remove-port=$PORT/tcp
-					firewall-cmd --permanent --zone=trusted --remove-source=10.8.0.0/24
-				fi
-				if iptables -L -n | grep -qE 'REJECT|DROP'; then
-					sed -i "/iptables -I INPUT -p tcp --dport $PORT -j ACCEPT/d" $RCLOCAL
-					sed -i "/iptables -I FORWARD -s 10.8.0.0\/24 -j ACCEPT/d" $RCLOCAL
-					sed -i "/iptables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT/d" $RCLOCAL
-				fi
-				sed -i '/iptables -t nat -A POSTROUTING -s 10.8.0.0\/24 -j SNAT --to /d' $RCLOCAL
-				if hash sestatus 2>/dev/null; then
-					if sestatus | grep "Current mode" | grep -qs "enforcing"; then
-						if [[ "$PORT" != '1194' ]]; then
-							semanage port -d -t openvpn_port_t -p tcp $PORT
-						fi
-					fi
-				fi
-				if [[ "$OS" = 'debian' ]]; then
-					apt-get remove --purge -y openvpn openvpn-blacklist
-				else
-					yum remove openvpn -y
-				fi
-				rm -rf /etc/openvpn
-				rm -rf /usr/share/doc/openvpn*
-				echo ""
-				echo "O OpenVPN foi desinstalado!"
-			else
-				echo ""
-				echo "A desinstalação do OpenVPN foi cancelada!"
-			fi
-			exit
-			;;
-			4) exit;;
-		esac
-	done
-else
+	if [[ -e /etc/openvpn/server.conf ]]; then
+		echo "OpenVPN já está instalado. "
+		exit
+	fi
 	clear
-	tput setaf 3 ; echo "Bem vindo ao script instalador do OpenVPN" ; tput sgr0
-	tput setaf 6 ; echo "Traduzido e adaptado para o protocolo TCP por Phreaker56"
-	echo "Script original: https://github.com/Nyr/openvpn-install" ; tput sgr0
-	echo ""
-	# OpenVPN setup and first user creation
-	echo "Eu preciso te perguntar algumas coisas antes de começar a configurar."
-	echo "Para confirmar a resposta padrão basta apertar a tecla ENTER"
+	echo "Script original: https://github.com/Nyr/openvpn-install"
+	echo "Adaptado por Haboryn do script original com gerenciamento de validade"
+	echo "Traduzido por Phreaker56"
 	echo ""
 	echo "Primeiro eu preciso saber o endereço IPv4 da interface de rede externa do seu servidor."
 	read -p "Endereço IP: " -e -i $IP IP
@@ -210,7 +129,7 @@ else
 	echo "Certo, isso é tudo o que eu precisava. Nós já estamos prontos para configurar o seu servidor OpenVPN"
 	echo ""
 	read -n1 -r -p "Aperte qualquer tecla para continuar..."
-		if [[ "$OS" = 'debian' ]]; then
+	if [[ "$OS" = 'debian' ]]; then
 		apt-get update
 		apt-get install openvpn iptables openssl ca-certificates -y
 	else
@@ -389,9 +308,250 @@ verb 3
 	# Generates the custom client.ovpn
 	newclient "$CLIENT"
 	echo ""
-	tput setaf 3 ; echo "Concluído!" ; tput sgr0
-	echo ""
 	echo "O Certificado do usuário $CLIENT está disponível em ~/$CLIENT.ovpn"
-	echo "Se você quiser adicionar mais usuários, basta executar este script novamente."
 	echo ""
+elif [[ "$resposta" = '2' ]]; then
+	clear
+	echo ""
+        echo "--------------------------------------------------"
+	echo "Digite o nome do usuário OpenVPN que deseja criar:"
+	echo "Evite caracteres especiais."
+        echo "--------------------------------------------------"
+	echo ""
+	read -p "Nome do usuário: " CLIENT
+	awk -F : ' { print $1 }' /etc/passwd > /tmp/users 
+	if grep -Fxq "$CLIENT" /tmp/users
+	then
+                while true
+                do
+                	clear
+			echo "----------------------------"
+			echo "usuário OpenVPN já existe..."
+			echo " "
+			echo "Digite o nome do usuário OpenVPN que deseja criar:"
+			echo "Evite caracteres especiais."
+        		echo "--------------------------------------------------"
+			read -p "Nome do usuário: " CLIENT
+                        awk -F : ' { print $1 }' /etc/passwd > /tmp/users 
+			if grep -Fxq "$CLIENT" /tmp/users
+                        then
+			        echo ""
+			else
+                                break
+                        fi
+		done
+	fi
+	cd /etc/openvpn/easy-rsa/
+	./easyrsa build-client-full $CLIENT nopass
+	# Generates the custom client.ovpn
+	echo ""
+	newclient "$CLIENT"
+	echo ""
+        arquivo=($CLIENT.ovpn)
+        mv /root/$arquivo /root/arquivosopenvpn
+	useradd -M -s /bin/false -d /home/opencliente/ $CLIENT
+	clear
+        echo "-------------------------------------------"
+	echo "Agora crie uma senha para este cliente."
+	echo "Vale lembrar que como esta usando OpenVPN"
+	echo "NÃO informe esta senha ao seu cliente,"
+	echo "assim preservara o sistema de gerenciamento"
+	echo "de validade. Digite qualquer coisa, afinal"
+	echo "esta senha não será usada."
+        echo "-------------------------------------------"
+	echo " "
+	read -p "Digite a senha para o cliente $CLIENT: " -e -i IdiiIIhgIi@[idiInbj2bjn senha
+	usermod -p $(openssl passwd -1 $senha) $CLIENT
+        clear
+	echo "----------------------------------"
+	echo "Agora vamos definir a validade...."
+	echo "Escolha primeiro o Dia, depois MÊS"
+	echo "E por fim o ANO de validade. Este "
+	echo "script já pre determina a validade"
+	echo "com 1 mês a frente então basta "
+	echo "pressionar ENTER e confirmar a"
+	echo "data ou modifique caso deseje....."
+	echo "----------------------------------"
+	DIAD=$(date +%d)  
+	MESM=$(date +%m)
+	ANOA=$(date +%Y)
+	MESNOVO=$(($MESM+01))
+	MESNOVOZ=`seq -f "%02g" $MESNOVO $MESNOVO`
+	read -p "Digite o DIA com dois dígitos: " -e -i $DIAD dia
+	echo " "
+	read -p "Digite o MÊS com dois dígitos: " -e -i $MESNOVOZ mes
+	echo " "
+	read -p "Digite o ANO com quatro dígitos: " -e -i $ANOA ano
+	usermod -e "$ano"-"$mes"-"$dia" "$CLIENT"
+        clear
+        validade=("$ano$mes$dia")
+        echo "$CLIENT $validade">> /root/openclientes.db
+	echo "$CLIENT $validade">> /etc/haboryn/backupOpenclientes.db
+        echo "O Certificado do usuário $CLIENT está disponível em /root/arquivosopenvpn/$CLIENT.ovpn"
+        echo "Para verificar basta digitar: ls /root/arquivosopenvpn/"
+        echo "Para pegar este arquivo.ovpn use comandos ou aplicativos SFTP"
+        echo " "
+        echo "--------------------------------------------"
+        echo "Usuário OpenVPN $CLIENT criado com sucesso"
+	echo "a validade do cliente $CLIENT é: $dia/$mes/$ano"
+        echo "IP do servidor: $IP"
+        echo "--------------------------------------------"
+elif [[ "$resposta" = '3' ]]; then
+	clear
+	NUMBEROFCLIENTS=$(tail -n +2 /etc/openvpn/easy-rsa/pki/index.txt | grep -c "^V")
+	if [[ "$NUMBEROFCLIENTS" = '0' ]]; then
+		echo ""
+		echo "Você não tem nenhum usuário existente no OpenVPN!"
+		exit
+	fi
+	echo ""
+	echo "Qual usuário deseja remover?"
+	tail -n +2 /etc/openvpn/easy-rsa/pki/index.txt | grep "^V" | cut -d '=' -f 2 | nl -s ') '
+	if [[ "$NUMBEROFCLIENTS" = '1' ]]; then
+		read -p "Selecione um usuário [1]: " CLIENTNUMBER
+	else
+		read -p "Selecione um usuário [1-$NUMBEROFCLIENTS]: " CLIENTNUMBER
+	fi
+	CLIENT=$(tail -n +2 /etc/openvpn/easy-rsa/pki/index.txt | grep "^V" | cut -d '=' -f 2 | sed -n "$CLIENTNUMBER"p)
+	cd /etc/openvpn/easy-rsa/
+	./easyrsa --batch revoke $CLIENT
+	./easyrsa gen-crl
+	rm -rf pki/reqs/$CLIENT.req
+	rm -rf pki/private/$CLIENT.key
+	rm -rf pki/issued/$CLIENT.crt
+	rm -rf /etc/openvpn/crl.pem
+	cp /etc/openvpn/easy-rsa/pki/crl.pem /etc/openvpn/crl.pem
+	# CRL is read with each client connection, when OpenVPN is dropped to nobody
+	chown nobody:$GROUPNAME /etc/openvpn/crl.pem
+	echo ""
+        arquivo=$('$CLIENT'.ovpn)
+        #Deletando Arquivo .ovpn
+        arquivo=($CLIENT.ovpn)
+        rm /root/arquivosopenvpn/$arquivo
+	userdel --force "$CLIENT"
+        grep -v ^$CLIENT[[:space:]] /root/openclientes.db > /tmp/haboryn ; cat /tmp/haboryn > /root/openclientes.db
+	grep -v ^$CLIENT[[:space:]] /etc/haboryn/backupOpenclientes.db > /tmp/haboryn ; cat /tmp/haboryn > /etc/haboryn/backupOpenclientes.db
+        echo " "
+	echo "Usuário $CLIENT removido"
+	exit
+elif [[ "$resposta" = '4' ]]; then
+	clear
+	#Esta parte é direto do script do phreaker56.xyz
+	#Créditos a ele.
+	echo "---------------------------------"
+	read -p "Quer mesmo desinstalar o OpenVPN? [s/n]: " -e -i n REMOVE
+	if [[ "$REMOVE" = 's' ]]; then
+		PORT=$(grep '^port ' /etc/openvpn/server.conf | cut -d " " -f 2)
+		if pgrep firewalld; then
+			# Using both permanent and not permanent rules to avoid a firewalld reload.
+			firewall-cmd --zone=public --remove-port=$PORT/tcp
+			firewall-cmd --zone=trusted --remove-source=10.8.0.0/24
+			firewall-cmd --permanent --zone=public --remove-port=$PORT/tcp
+			firewall-cmd --permanent --zone=trusted --remove-source=10.8.0.0/24
+		fi
+		if iptables -L -n | grep -qE 'REJECT|DROP'; then
+			sed -i "/iptables -I INPUT -p tcp --dport $PORT -j ACCEPT/d" $RCLOCAL
+			sed -i "/iptables -I FORWARD -s 10.8.0.0\/24 -j ACCEPT/d" $RCLOCAL
+			sed -i "/iptables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT/d" $RCLOCAL
+		fi
+		sed -i '/iptables -t nat -A POSTROUTING -s 10.8.0.0\/24 -j SNAT --to /d' $RCLOCAL
+		if hash sestatus 2>/dev/null; then
+			if sestatus | grep "Current mode" | grep -qs "enforcing"; then
+				if [[ "$PORT" != '1194' ]]; then
+					semanage port -d -t openvpn_port_t -p tcp $PORT
+				fi
+			fi
+		fi
+		if [[ "$OS" = 'debian' ]]; then
+			apt-get remove --purge -y openvpn openvpn-blacklist
+		else
+			yum remove openvpn -y
+		fi
+		rm -rf /etc/openvpn
+		rm -rf /usr/share/doc/openvpn*
+		echo ""
+		echo "OpenVPN desinstalado com sucesso!"
+	else
+		echo ""
+		echo "A desinstalação do OpenVPN foi cancelada!"
+	fi
+elif [[ "$resposta" = '5' ]]; then
+        clear
+        echo " "
+	read -p "Nome do usuário OpenVPN para alterar a validade: " user
+	if [[ -z $user ]]
+	then
+		echo ""
+		tput setaf 7 ; tput setab 4 ; tput bold ; echo "Você digitou um nome de usuário vazio ou inválido!" ; tput sgr0
+		echo ""
+		exit 1
+	else
+		awk -F : ' { print $1 }' /etc/passwd > /tmp/users
+		if grep -Fxq "$user" /tmp/users
+		then
+                	echo " "
+        	else
+                	clear
+                	while true
+                	do
+				tput sgr0
+				echo "----------------------------"
+				echo "Usuário $user não existe..."
+				echo " "
+				echo "Digite o nome do usuário OpenVPN que deseja renovar:"
+        			echo "---------------------------------------------------------"
+				read -p "Nome do usuário: " user
+                        	awk -F : ' { print $1 }' /etc/passwd > /tmp/users 
+				if grep -Fxq "$user" /tmp/users
+                        	then
+			        	break
+				else
+                                	echo " "
+                        	fi
+			done
+		fi
+		clear
+		echo "----------------------------------"
+		echo "Agora vamos definir a validade...."
+		echo "Escolha primeiro o Dia, depois MÊS"
+		echo "E por fim o ANO de validade. Este "
+		echo "script já pre determina a validade"
+		echo "com 1 mês a frente então basta "
+		echo "pressionar ENTER e confirmar a"
+		echo "data ou modifique caso deseje....."
+		echo "----------------------------------"
+		DIAD=$(date +%d)  
+		MESM=$(date +%m)
+       		ANOA=$(date +%Y)
+		MESNOVO=$(($MESM+01))
+		MESNOVOZ=`seq -f "%02g" $MESNOVO $MESNOVO`
+		read -p "Digite o DIA com dois dígitos: " -e -i $DIAD dia
+		echo " "
+		read -p "Digite o MÊS com dois dígitos: " -e -i $MESNOVOZ mes
+		echo " "
+		read -p "Digite o ANO com quatro dígitos: " -e -i $ANOA ano
+		clear
+		usermod -e "$ano"-"$mes"-"$dia" "$user"
+		echo " "
+        	echo " "
+        	validade=("$ano$mes$dia")
+        	grep -v ^$user[[:space:]] /root/openclientes.db > /tmp/mudar
+		mv /tmp/mudar /root/openclientes.db
+        	echo "$user $validade">> /root/openclientes.db
+        	##mudanca
+        	grep -v ^$user[[:space:]] etc/haboryn/backupOpenclientes.db > /tmp/mudar
+		mv /tmp/mudar etc/haboryn/backupOpenclientes.db
+		echo "$user $validade">> /etc/haboryn/backupOpenclientes.db
+		echo "-----------------------------------------------------------"
+		echo "Validade do cliente $user alterada para: $dia/$mes/$ano"
+        	echo "IP do Servidor: $IP"
+		echo "-----------------------------------------------------------"
+
+	fi
+else
+        clear
+	echo "---------------"
+	echo "opção invalida!"
+	echo "---------------"
+        clear
 fi
