@@ -131,7 +131,7 @@ refresh_pattern . 0 20% 4320" >> /etc/squid3/squid.conf && sed -i $MYIP2 /etc/sq
 wget --no-check-certificate -O /usr/bin/badvpn-udpgw "https://github.com/woltfn/mx/raw/master/badvpn-udpgw" && sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local && chmod +x /usr/bin/badvpn-udpgw && screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
 
 # Instalar dropbear
-apt-get -y install dropbear && sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear && sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=109/g' /etc/default/dropbear && sed -i 's/DROPBEAR_EXTRA_ARGS=/DROPBEAR_EXTRA_ARGS="-p 22"/g' /etc/default/dropbear && echo "/bin/false" >> /etc/shells && echo "/usr/sbin/nologin" >> /etc/shells
+apt-get -y install dropbear && sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear && sed -i 's/DROPBEAR_PORT=443/DROPBEAR_PORT=22/g' /etc/default/dropbear && sed -i 's/DROPBEAR_EXTRA_ARGS=/DROPBEAR_EXTRA_ARGS="-p 22"/g' /etc/default/dropbear && echo "/bin/false" >> /etc/shells && echo "/usr/sbin/nologin" >> /etc/shells
 
 # Upgrade dropbear 
 wget --no-check-certificate https://matt.ucc.asn.au/dropbear/releases/dropbear-2016.73.tar.bz2
@@ -171,7 +171,7 @@ apt-get -y install fail2ban && wget --no-check-certificate -O /etc/fail2ban/jail
 
 # Baixar scripts
 cd
-mkdir /etc/payload 2>/dev/null
+
 mkdir /etc/VpsPackdir 2>/dev/null
 mkdir /etc/VpsPackdir/limite 2>/dev/null
 mkdir /etc/VpsPackdir/senha 2>/dev/null
