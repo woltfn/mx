@@ -72,9 +72,11 @@ echo "clear" >> .bash_profile
 echo "screenfetch" >> .bash_profile
 
 # Instalar squid3
-apt-get -y install squid3 && mv /etc/squid3/squid.conf /etc/squid3/squid.conf.ori && touch /etc/squid3/squid.conf && echo 
-"acl localhost src 127.0.0.1/32 ::1
+apt-get -y install squid3 && mv /etc/squid3/squid.conf /etc/squid3/squid.conf.ori && touch /etc/squid3/squid.conf && echo "acl localhost src 127.0.0.1/32 ::1
+acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
+acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
 acl vpspacketaccept dstdomain "/etc/payload
+http_access allow vpspacketaccept
 acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
 acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
 acl SSL_ports port 443
@@ -83,7 +85,6 @@ acl CONNECT method CONNECT
 acl HEAD method HEAD
 acl OPTIONS method OPTIONS
 acl GET method GET
-http_access allow vpspacketaccept
 http_access allow SSH
 http_access allow HEAD
 http_access allow OPTIONS
@@ -127,7 +128,6 @@ refresh_pattern ^ftp: 1440 20% 10080
 refresh_pattern ^gopher: 1440 0% 1440
 refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
 refresh_pattern . 0 20% 4320" >> /etc/squid3/squid.conf && sed -i $MYIP2 /etc/squid3/squid.conf;
-
 # Instalar badvpn
 wget --no-check-certificate -O /usr/bin/badvpn-udpgw "https://github.com/woltfn/mx/raw/master/badvpn-udpgw" && sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local && chmod +x /usr/bin/badvpn-udpgw && screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
 
