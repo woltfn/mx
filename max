@@ -137,9 +137,9 @@ apt-get install openssh-server
 
 # Instalar dropbear
 apt-get -y install dropbear && sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear 
-&& sed -i 's/DROPBEAR_PORT=443/D' /etc/default/dropbear 
+&& sed -i 's/DROPBEAR_PORT=443/D' /etc/default/dropbear && echo "/bin/false" >> /etc/shells && echo "/usr/sbin/nologin" >> /etc/shells
 service dropbear restart
-/etc/init.d/dropbear start 
+
 
 # Instalar iptables-persistent
 apt-get -y install iptables-persistent
@@ -152,6 +152,8 @@ iptables -A INPUT -i lo -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 8799 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 8090 -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 7300 -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 7300 -j ACCEPT
 iptables -A INPUT -p udp -m udp --dport 7300 -j ACCEPT
