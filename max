@@ -183,7 +183,6 @@ rm -rf /usr/bin/cadastro 2>/dev/null
 wget --no-check-certificate -O /usr/bin/cadastro "https://github.com/woltfn/mx/raw/master/cadastro"
 chmod +x /usr/bin/cadastro
 
-
 rm -rf /usr/bin/redefine 2>/dev/null
 wget --no-check-certificate -O /usr/bin/redefine https://github.com/woltfn/mx/raw/master/redefine 
 chmod +x /usr/bin/redefine
