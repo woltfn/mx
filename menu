@@ -80,7 +80,7 @@ case $opcao in
   read -p "Em qual diretorio esta o arquivo de Backup: " arq 
   restusers $arq;;
  9)
-  detalhes-Users;;
+  detalhesusers;;
  10)
  speedtest;;
   11)
