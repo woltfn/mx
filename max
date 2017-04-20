@@ -133,12 +133,13 @@ wget --no-check-certificate -O /usr/bin/badvpn-udpgw "https://github.com/woltfn/
 
 #instalar openssh
 apt-get install openssh-server 
-/etc/init.d/ssh stop
+service ssh stop
 
 # Instalar dropbear
-# Instalar dropbear
-apt-get -y install dropbear && sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear && sed -i 's/DROPBEAR_PORT=443/g' /etc/default/dropbear && echo "/bin/false" >> /etc/shells && echo "/usr/sbin/nologin" >> /etc/shells
+apt-get -y install dropbear && sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear && sed -i 's/DROPBEAR_PORT=443/DROPBEAR_PORT=443/g' /etc/default/dropbear && echo "/bin/false" >> /etc/shells && echo "/usr/sbin/nologin" >> /etc/shells
 service dropbear restart
+service dropbear start
+
 
 # Instalar iptables-persistent
 apt-get -y install iptables-persistent
