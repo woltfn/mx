@@ -74,7 +74,7 @@ if [[ "$IP" = "" ]]; then
 		IP=$(wget -qO- ipv4.icanhazip.com)
 fi
 echo -e '\033[05;31m-------------------------------------------------------\033[00;37m'
-echo -e '\033[01;32m              COMANDOS OPENVPN ?\033[00;37m'
+echo -e '\033[01;32m   COMANDOS OPENVPN \033[00;37m'
 echo " "
 echo -e 'Digite: \033[01;32m1\033[00;37m para Instalar o OpenVPN.'
 echo " "
@@ -357,28 +357,16 @@ elif [[ "$resposta" = '2' ]]; then
 	echo " "
 	read -p "Digite a senha para o cliente $CLIENT: " -e -i mx123 senha
 	usermod -p $(openssl passwd -1 $senha) $CLIENT
-	echo "$senha" > /etc/VpsPackdir/senha/$name
+	echo "$senha" > /etc/VpsPackdir/senha/$CLIENT
         clear
 	echo "----------------------------------"
-	echo "Agora vamos definir a validade...."
-	echo "Escolha primeiro o Dia, depois MÊS"
-	echo "E por fim o ANO de validade. Este "
-	echo "script já pre determina a validade"
-	echo "com 1 mês a frente então basta "
-	echo "pressionar ENTER e confirmar a"
-	echo "data ou modifique caso deseje....."
+	echo "Digite quantos dias para o usuario"
+
 	echo "----------------------------------"
-	DIAD=$(date +%d)  
-	MESM=$(date +%m)
-	ANOA=$(date +%Y)
-	MESNOVO=$(($MESM+01))
-	MESNOVOZ=`seq -f "%02g" $MESNOVO $MESNOVO`
-	read -p "Digite o DIA com dois dígitos: " -e -i $DIAD dia
-	echo " "
-	read -p "Digite o MÊS com dois dígitos: " -e -i $MESNOVOZ mes
-	echo " "
-	read -p "Digite o ANO com quatro dígitos: " -e -i $ANOA ano
-	usermod -e "$ano"-"$mes"-"$dia" "$CLIENT"
+    read -p " " daysrnf
+    date=$(date '+%C%y-%m-%d' -d " +$daysrnf days")
+    datexp=$(date "+%d/%m/%Y" -d "+ $daysrnf days")
+    usermod -e "$datexp" "$CLIENT"
         clear
         validade=("$ano$mes$dia")
         echo "$CLIENT $validade">> /root/openclientes.db
@@ -388,9 +376,12 @@ elif [[ "$resposta" = '2' ]]; then
         echo "Para pegar este arquivo.ovpn use comandos ou aplicativos SFTP"
         echo " "
         echo "--------------------------------------------"
-        echo "Usuário OpenVPN $CLIENT criado com sucesso"
-	echo "a validade do cliente $CLIENT é: $dia/$mes/$ano"
-        echo "IP do servidor: $IP"
+        echo "USUÁRIO OPENVPN CRIADO COM SUCESSO"
+		echo -e "\033[1;36mUsuario: \033[0m$CLIENT"
+		echo -e "\033[1;36mSenha: \033[0m$senha"
+		echo -e "\033[1;36mExpira:\033[0m $datexp"
+		echo "IP do servidor: $IP"
+        echo "Porta: $PORT"
         echo "--------------------------------------------"
 elif [[ "$resposta" = '3' ]]; then
 	clear
