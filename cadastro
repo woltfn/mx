@@ -5,9 +5,9 @@ if [ $(id -u) -eq 0 ]
 then
 	echo -e "\033[1;32mNome do novo usuario:\033[0;37m"; read -p " " name
 	echo -e "\033[1;32mSenha para o usuario $name:\033[0;37m"; read -p " " pass
-	echo -e "\033[1;32mLimite para o usuario $name:\033[0;37m"; read -p " " limit
 	echo -e "\033[1;32mQuantos dias usuario $name deve durar:\033[0;37m"; read -p " " daysrnf
-	echo -e "\033[0m"
+	echo -e "\033[1;32mNumero de loguins simultaneos $name:\033[0;37m"; read -p " " limit
+        echo -e "\033[0m"
 	if cat /etc/passwd |grep $name: |grep -vi [a-z]$name |grep -v [0-9]$name > /dev/null
 	then
 		echo -e "\033[1;31mUsuario $name ja existe\033[0m"
@@ -15,12 +15,22 @@ then
 		valid=$(date '+%C%y-%m-%d' -d " +$daysrnf days")
 		datexp=$(date "+%d/%m/%Y" -d "+ $daysrnf days")
 		useradd -M -s /bin/false $name -e $valid
-		sudo limit $name $limit
 		(echo $pass; echo $pass)|passwd $name 2>/dev/null
-		echo -e "\033[1;36mUsuario: \033[0m$name"
-		echo -e "\033[1;36mSenha: \033[0m$pass"
-		echo -e "\033[1;36mExpira:\033[0m $datexp"
-		echo -e "\033[1;36mlimite user:\033[0m $limit"
+		sudo limit $name $limit
+		
+		echo "-----------------------------------------------------"
+    		echo "         USUARIO CRIADO COM SUCESSO           "
+		echo "-----------------------------------------------------"
+		echo -e "Usuario: $name"
+		echo -e "Senha: $pass"
+		echo -e "Expira em: $datexp"
+		echo -e "IP: $IP "
+		echo -e "PortaSSH: 443 "
+		echo -e "PortaSquid: 80 "
+		echo -e "Conexao(oes) simultanea(s): $limit"
+		echo "-----------------------------------------------------"
+
+	
 	    echo "$pass" > /etc/VpsPackdir/senha/$name
 	fi
 else
