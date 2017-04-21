@@ -87,6 +87,6 @@ case $opcao in
  sshmon;;
   12)
    opv;;
- r
+*)
   id > /dev/null 2> /dev/null
 esac
