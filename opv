@@ -355,8 +355,9 @@ elif [[ "$resposta" = '2' ]]; then
 	echo "esta senha não será usada."
         echo "-------------------------------------------"
 	echo " "
-	read -p "Digite a senha para o cliente $CLIENT: " -e -i IdiiIIhgIi@[idiInbj2bjn senha
+	read -p "Digite a senha para o cliente $CLIENT: " -e -i mx123 senha
 	usermod -p $(openssl passwd -1 $senha) $CLIENT
+	echo "$senha" > /etc/VpsPackdir/senha/$name
         clear
 	echo "----------------------------------"
 	echo "Agora vamos definir a validade...."
