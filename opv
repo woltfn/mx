@@ -1,11 +1,11 @@
 #!/bin/bash
 # OpenVPN road warrior installer for Debian, Ubuntu and CentOS
 touch /root/openclientes.db
-mkdir /etc/haboryn/
+mkdir /etc/mx/
 mkdir /home/loginslimitados/
 mkdir /root/arquivosopenvpn/
 mkdir /home/opencliente/
-touch /etc/haboryn/backupOpenclientes.db
+touch /etc/mx/backupOpenclientes.db
 clear
 # This script will work on Debian, Ubuntu, CentOS and probably other distros
 # of the same families, although no support is offered for them. It isn't
@@ -74,7 +74,7 @@ if [[ "$IP" = "" ]]; then
 		IP=$(wget -qO- ipv4.icanhazip.com)
 fi
 echo -e '\033[05;31m-------------------------------------------------------\033[00;37m'
-echo -e '\033[01;32m              O que deseja fazer ?\033[00;37m'
+echo -e '\033[01;32m              COMANDOS OPENVPN ?\033[00;37m'
 echo " "
 echo -e 'Digite: \033[01;32m1\033[00;37m para Instalar o OpenVPN.'
 echo " "
@@ -88,10 +88,6 @@ echo -e 'Digite: \033[01;32m5\033[00;37m para renovar um usuário OpenVPN.'
 echo " "
 echo -e '\033[05;31m-------------------------------------------------------\033[00;37m'
 echo " "
-echo -e '\033[05;35mGostou do meu trabalho ?\033[00;37m'
-echo -e '\033[05;35mAjude para que esse meu projeto continue...\033[00;37m'
-echo -e '\033[05;35mDoe BTC para:\033[00;37m \033[05;33m32JFqnK9cyfJkHJd9tz2BkWKQHCRjBX3JC\033[00;37m'
-echo " "
 read -p "Responda: " -e -i 2 resposta
 if [[ "$resposta" = '1' ]]; then
 	clear
@@ -101,8 +97,7 @@ if [[ "$resposta" = '1' ]]; then
 	fi
 	clear
 	echo "Script original: https://github.com/Nyr/openvpn-install"
-	echo "Adaptado por Haboryn do script original com gerenciamento de validade"
-	echo "Traduzido por Phreaker56"
+	echo "Adaptado por Maxtunnel do script original com gerenciamento de validade"
 	echo ""
 	echo "Primeiro eu preciso saber o endereço IPv4 da interface de rede externa do seu servidor."
 	read -p "Endereço IP: " -e -i $IP IP
@@ -119,7 +114,7 @@ if [[ "$resposta" = '1' ]]; then
 	echo "   5) Hurricane Electric"
 	echo "   6) Verisign"
 	echo ""
-	read -p "DNS [1-6]: " -e -i 6 DNS
+	read -p "DNS [1-6]: " -e -i 2 DNS
 	echo ""
 	echo "Pronto, agora me diga um nome para o certificado do usuário."
 	echo "Por favor, use apenas uma única palavra, sem caracteres especiais."
@@ -386,7 +381,7 @@ elif [[ "$resposta" = '2' ]]; then
         clear
         validade=("$ano$mes$dia")
         echo "$CLIENT $validade">> /root/openclientes.db
-	echo "$CLIENT $validade">> /etc/haboryn/backupOpenclientes.db
+	echo "$CLIENT $validade">> /etc/mx/backupOpenclientes.db
         echo "O Certificado do usuário $CLIENT está disponível em /root/arquivosopenvpn/$CLIENT.ovpn"
         echo "Para verificar basta digitar: ls /root/arquivosopenvpn/"
         echo "Para pegar este arquivo.ovpn use comandos ou aplicativos SFTP"
@@ -429,8 +424,8 @@ elif [[ "$resposta" = '3' ]]; then
         arquivo=($CLIENT.ovpn)
         rm /root/arquivosopenvpn/$arquivo
 	userdel --force "$CLIENT"
-        grep -v ^$CLIENT[[:space:]] /root/openclientes.db > /tmp/haboryn ; cat /tmp/haboryn > /root/openclientes.db
-	grep -v ^$CLIENT[[:space:]] /etc/haboryn/backupOpenclientes.db > /tmp/haboryn ; cat /tmp/haboryn > /etc/haboryn/backupOpenclientes.db
+        grep -v ^$CLIENT[[:space:]] /root/openclientes.db > /tmp/mx; cat /tmp/mx> /root/openclientes.db
+	grep -v ^$CLIENT[[:space:]] /etc/mx/backupOpenclientes.db > /tmp/mx ; cat /tmp/mx > /etc/mx/backupOpenclientes.db
         echo " "
 	echo "Usuário $CLIENT removido"
 	exit
@@ -539,9 +534,9 @@ elif [[ "$resposta" = '5' ]]; then
 		mv /tmp/mudar /root/openclientes.db
         	echo "$user $validade">> /root/openclientes.db
         	##mudanca
-        	grep -v ^$user[[:space:]] etc/haboryn/backupOpenclientes.db > /tmp/mudar
-		mv /tmp/mudar etc/haboryn/backupOpenclientes.db
-		echo "$user $validade">> /etc/haboryn/backupOpenclientes.db
+        	grep -v ^$user[[:space:]] etc/mx/backupOpenclientes.db > /tmp/mudar
+		mv /tmp/mudar etc/mx/backupOpenclientes.db
+		echo "$user $validade">> /etc/mx/backupOpenclientes.db
 		echo "-----------------------------------------------------------"
 		echo "Validade do cliente $user alterada para: $dia/$mes/$ano"
         	echo "IP do Servidor: $IP"
