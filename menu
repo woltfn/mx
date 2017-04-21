@@ -90,5 +90,3 @@ case $opcao in
 *)
   id > /dev/null 2> /dev/null
 esac
-
-
