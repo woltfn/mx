@@ -50,7 +50,7 @@ echo -e "\033[1;37mEscolha uma das opçoẽs:    \033[1;37mPara Sair Ctrl + C\03
 [6] monitorar \033[1;30m(IMPORTANTE monitorar conexões por usuarios)\033[0m\033[1;33m
 [7] Backup-Users \033[1;30m(Backup dos usuarios para reinstalação futura)\033[1;33m
 [8] Rest-Users \033[1;30m(Restaurar usuarios feito backup)\033[1;33m
-[9] Detalhesuser \033[1;30m(Mostra informações sobre os usuarios !!)\033[1;33m
+[9] detalhesuser\033[1;30m(Mostra informações sobre os usuarios !!)\033[1;33m
 [10] speedtest \033[1;30m(Teste de conexão [velocidade de banda])\033[1;33m
 [11] sshmon \033[1;30m(Mostra informações sobre os usuarios !!)\033[1;33m
 [12] opv \033[1;30m(openvpn!!)\033[1;33m"
@@ -80,7 +80,7 @@ case $opcao in
   read -p "Em qual diretorio esta o arquivo de Backup: " arq 
   restusers $arq;;
  9)
-  detalhesusers;;
+  detalhesuser;;
  10)
  speedtest;;
   11)
