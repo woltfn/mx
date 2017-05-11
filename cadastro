@@ -16,7 +16,7 @@ then
 		datexp=$(date "+%d/%m/%Y" -d "+ $daysrnf days")
 		useradd -M -s /bin/false $name -e $valid
 		(echo $pass; echo $pass)|passwd $name 2>/dev/null
-		sudo limit $name $limit
+		 limit $name $limit
 		
 		echo "-----------------------------------------------------"
     		echo "         USUARIO CRIADO COM SUCESSO           "
