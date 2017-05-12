@@ -96,7 +96,7 @@ acl POST method POST
 acl PUT method PUT
 acl DELETE method DELETE
 acl TRACE method TRACE
-acl TRACE method GET
+acl GET method GET
 acl safe_ip dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
 acl bughost dstdomain "/etc/squid3/bughost.txt"
 acl blocksites dstdomain .baidu.com
