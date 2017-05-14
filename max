@@ -81,7 +81,7 @@ acl Safe_ports port 80          # http
 acl Safe_ports port 21          # ftp
 acl Safe_ports port 443         # https
 acl Safe_ports port 70          # gopher
-acl Safe_ports port 210         # wais
+acl Safe_ports port 210         # wAais
 acl Safe_ports port 1025-65535  # unregistered ports
 acl Safe_ports port 280         # http-mgmt
 acl Safe_ports port 488         # gss-http
@@ -90,7 +90,6 @@ acl Safe_ports port 777         # multiling http
 
 acl netflix dstdomain .netflix.
 acl CONNECT method CONNECT
-acl GET method GET
 acl OPTIONS method OPTIONS
 acl HEAD method HEAD
 acl POST method POST
@@ -98,19 +97,21 @@ acl PUT method PUT
 acl DELETE method DELETE
 acl TRACE method TRACE
 acl safe_ip dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
+acl bughost dstdomain "/etc/squid3/bughost.txt"
+acl blocksites dstdomain .baidu.com
 
 http_access deny !Safe_ports
 http_access deny CONNECT !SSL_ports safe_ip
 http_access allow safe_ip
+http_access deny !bughost
 http_access deny blocksites
 
 http_access allow netflix
 http_access allow OPTIONS
 http_access allow HEAD
 http_access allow POST
-http_access allow GET
-http_access allow PUT
-http_access allow DELETE
+#http_access allow PUT
+#http_access allow DELETE
 http_access allow TRACE
 
 http_access deny all
