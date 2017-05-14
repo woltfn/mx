@@ -25,7 +25,7 @@ then
 		echo -e "Usuario: $name"
 		echo -e "Senha: $pass"
 		echo -e "Expira em: $datexp"
-		echo -e "IP: mx.maxtunnel.com "
+		echo -e "IP: $IP"
 		echo -e "PortaSSH: 443 "
 		echo -e "PortaSquid: 80 "
 		echo -e "Conexao(oes) simultanea(s): $limit"
