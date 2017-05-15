@@ -1,5 +1,6 @@
 #!/bin/bash
-IP=`ifconfig -a | grep inet | head -1 | awk '{print $2}' | cut -d: -f2`
+IP=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0'`;
+
 mkdir /etc/VpsPackdir 1>/dev/null 2>/dev/null
 mkdir /etc/VpsPackdir/senha 1>/dev/null 2>/dev/null
 if [ $(id -u) -eq 0 ]
