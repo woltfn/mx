@@ -307,6 +307,12 @@ rm -rf /usr/bin/autokill 2>/dev/null
 wget --no-check-certificate -O /usr/bin/autokill        https://github.com/woltfn/mx/raw/master/autokill 
 chmod +x /usr/bin/autokill
 
+echo "@reboot root /root/userexpired" > /etc/cron.d/userexpired
+echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/rebootd
+echo "* * * * * service dropbear restart" > /etc/cron.d/dropbear
+echo "@reboot root /root/autokill.sh" > /etc/cron.d/autokill
+sed -i '$ i\screen -AmdS check /root/autokill' /etc/rc.local
+
 groupadd clients
 
 # Finalizando
