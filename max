@@ -303,7 +303,11 @@ rm -rf /usr/bin/opv 2>/dev/null
 wget --no-check-certificate -O /usr/bin/opv        https://github.com/woltfn/mx/raw/master/opv 
 chmod +x /usr/bin/opv 
 
-groupadd cients
+rm -rf /usr/bin/autokill 2>/dev/null
+wget --no-check-certificate -O /usr/bin/autokill        https://github.com/woltfn/mx/raw/master/autokill 
+chmod +x /usr/bin/autokill
+
+groupadd clients
 
 # Finalizando
 service dropbear restart
