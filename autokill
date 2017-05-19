@@ -10,6 +10,6 @@
   #done
 while :
   do
-  ./userexpired
+  userexpired
   sleep 36000
   done
