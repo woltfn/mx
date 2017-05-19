@@ -8,7 +8,7 @@ then
 	echo -e "\033[1;32mNome do novo usuario:\033[0;37m"; read -p " " name
 	echo -e "\033[1;32mSenha para o usuario $name:\033[0;37m"; read -p " " pass
 	echo -e "\033[1;32mQuantos dias usuario $name deve durar:\033[0;37m"; read -p " " daysrnf
-	echo -e "\033[1;32mNumero de loguins simultaneos $name:\033[0;37m"; read -p " " limit
+	echo -e "\033[1;32mNumero de loguins simultaneos $name:\033[0;37m"; read -p " " limite
         echo -e "\033[0m"
 	if cat /etc/passwd |grep $name: |grep -vi [a-z]$name |grep -v [0-9]$name > /dev/null
 	then
@@ -18,7 +18,7 @@ then
 		datexp=$(date "+%d/%m/%Y" -d "+ $daysrnf days")
 		useradd -M -s /bin/false $name -e $valid
 		(echo $pass; echo $pass)|passwd $name 2>/dev/null
-		 limit $name $limit
+		 limit $name $limite > /dev/null 2>/dev/null 
 		
 		echo "-----------------------------------------------------"
     		echo "         USUARIO CRIADO COM SUCESSO           "
