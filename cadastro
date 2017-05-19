@@ -29,7 +29,7 @@ then
 		echo -e "IP: $IP"
 		echo -e "PortaSSH: 443 "
 		echo -e "PortaSquid: 80 "
-		echo -e "Conexao(oes) simultanea(s): $limit"
+		echo -e "Conexao(oes) simultanea(s): $limite"
 		echo "-----------------------------------------------------"
 
 	
