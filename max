@@ -272,9 +272,9 @@ rm -rf /usr/bin/dropmon 2>/dev/null
 wget --no-check-certificate -O /usr/bin/dropmon https://github.com/woltfn/mx/raw/master/dropmon 
 chmod +x /usr/bin/dropmon
 
-rm -rf /usr/bin/userexpired 2>/dev/null
-wget --no-check-certificate -O /usr/bin/userexpired https://github.com/woltfn/mx/raw/master/userexpired
-chmod +x /usr/bin/userexpired
+rm -rf /usr/bin/clientesctl 2>/dev/null
+wget --no-check-certificate -O /usr/bin/clientesctl https://github.com/woltfn/mx/raw/master/clientesctl
+chmod +x /usr/bin/clientesctl
 
 rm -rf /usr/bin/expire 2>/dev/null
 wget --no-check-certificate -O /usr/bin/expire https://github.com/woltfn/mx/raw/master/expire 
@@ -325,14 +325,14 @@ wget --no-check-certificate -O /usr/bin/detalhesuser https://github.com/woltfn/m
 chmod +x /usr/bin/detalhesuser
 
 rm -rf /usr/bin/opv 2>/dev/null
-wget --no-check-certificate -O /usr/bin/opv        https://github.com/woltfn/mx/raw/master/opv 
+wget --no-check-certificate -O /usr/bin/opv  https://github.com/woltfn/mx/raw/master/opv 
 chmod +x /usr/bin/opv 
 
 rm -rf /usr/bin/banner 2>/dev/null
-wget --no-check-certificate -O /usr/bin/banner       https://github.com/woltfn/mx/raw/master/banner
+wget --no-check-certificate -O /usr/bin/banner https://github.com/woltfn/mx/raw/master/banner
 chmod +x /usr/bin/banner
 
-echo "@reboot root /usr/bin/ userexpired" > /etc/cron.d/userexpired
+echo "@reboot root /usr/bin/ clientesctl" > /etc/cron.d/clientesctl
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
 echo "* * * * * service dropbear restart" > /etc/cron.d/dropbear
 
