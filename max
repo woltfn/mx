@@ -72,7 +72,7 @@ echo "clear" >> .bash_profile
 echo "screenfetch" >> .bash_profile
 
 # Instalar squid3
-apt-get -y install squid3 && mv /etc/squid3/squid.conf /etc/squid3/squid.conf.ori && touch /etc/squid3/squid.conf && echo "acl vpspacketaccept dstdomain "/etc/payload"
+apt-get -y install squid3 && mv /etc/squid3/squid.conf /etc/squid3/squid.conf.ori && touch /etc/squid3/squid.conf && echo "acl vpspacketaccept dstdomain '/etc/payload'
 http_access allow vpspacketaccept
 
 acl SSL_ports port 443
