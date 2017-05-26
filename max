@@ -303,10 +303,6 @@ rm -rf /usr/bin/opv 2>/dev/null
 wget --no-check-certificate -O /usr/bin/opv        https://github.com/woltfn/mx/raw/master/opv 
 chmod +x /usr/bin/opv 
 
-rm -rf /usr/bin/autokill 2>/dev/null
-wget --no-check-certificate -O /usr/bin/autokill        https://github.com/woltfn/mx/raw/master/autokill 
-chmod +x /usr/bin/autokill
-
 rm -rf /usr/bin/banner 2>/dev/null
 wget --no-check-certificate -O /usr/bin/banner       https://github.com/woltfn/mx/raw/master/banner
 chmod +x /usr/bin/banner
@@ -314,8 +310,7 @@ chmod +x /usr/bin/banner
 echo "@reboot root /usr/bin/ userexpired" > /etc/cron.d/userexpired
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
 echo "* * * * * service dropbear restart" > /etc/cron.d/dropbear
-echo "@reboot root /usr/bin/ autokill" > /etc/cron.d/autokill
-sed -i '$ i\screen -AmdS check /root/autokill' /etc/rc.local
+
 
 groupadd clients
 
