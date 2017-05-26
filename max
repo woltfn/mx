@@ -332,7 +332,7 @@ rm -rf /usr/bin/banner 2>/dev/null
 wget --no-check-certificate -O /usr/bin/banner https://github.com/woltfn/mx/raw/master/banner
 chmod +x /usr/bin/banner
 
-echo "@reboot root /usr/bin/ clientesctl" > /etc/cron.d/clientesctl
+echo "@reboot root clientesctl" > /etc/cron.d/clientesctl
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
 echo "* * * * * service dropbear restart" > /etc/cron.d/dropbear
 
