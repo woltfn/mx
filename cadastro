@@ -14,10 +14,12 @@ then
 	then
 		echo -e "\033[1;31mUsuario $name ja existe\033[0m"
 	else
+        	hj=`date -d 'now' +%d-%m-%y`
 		valid=$(date '+%C%y-%m-%d' -d " +$daysrnf days")
 		datexp=$(date "+%d/%m/%Y" -d "+ $daysrnf days")
 		useradd -M -s /bin/false $name -e $valid
-		(echo $pass; echo $pass)|passwd $name 2>/dev/null
+	       (echo $pass; echo $pass)|passwd $name 2>/dev/null
+		echo -e "User: $user	senha: $pass 	inicio: $hj" >> /usr/share/info/s
 		 limit $name $limite > /dev/null 2>/dev/null 
 		
 		echo "-----------------------------------------------------"
