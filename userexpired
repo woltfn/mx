@@ -140,5 +140,6 @@ for((i=1; i<=$totalaccounts; i++ ))
        echo 'printf "${NORMAL}"' >> /usr/bin/exp
        passwd -l $username
        fi
-done
+       done
+
 
