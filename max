@@ -336,7 +336,7 @@ echo "@reboot root /usr/bin/ clientesctl
 * */6 * * * root clientesctl" > /etc/cron.d/clientesctl
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
 echo "* * * * * /etc/init.d/dropbear restart" > /etc/cron.d/dropbear
-
+#cron
 /etc/init.d/cron restart
 service cron restart
 
