@@ -40,7 +40,7 @@ echo "net.ipv4.ip_local_port_range = 1025 65535" >> /etc/sysctl.conf
 echo "fs.file-max = 999999" >> /etc/sysctl.conf
 
 # time zone
-ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+#ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 # Ativar Encaminhamento IPV4
 sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
 
