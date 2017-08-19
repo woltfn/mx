@@ -234,23 +234,30 @@ invoke-rc.d iptables-persistent save
 apt-get -y install fail2ban && wget --no-check-certificate -O /etc/fail2ban/jail.conf "https://github.com/woltfn/mx/raw/master/jail.conf" && sed -i $MYIP2 /etc/fail2ban/jail.conf && service fail2ban restart
 
 # Baixar scripts
-cd
 
-mkdir /etc/VpsPackdir 2>/dev/null
-mkdir /etc/VpsPackdir/limite 2>/dev/null
-mkdir /etc/VpsPackdir/senha 2>/dev/null
+rm -rf /usr/bin/nota 2>/dev/null
+wget --no-check-certificate -O /usr/bin/nota  "https://github.com/woltfn/mx/raw/master/nota"
+chmod +x /usr/bin/nota
 
-rm -rf /usr/bin/limit 2>/dev/null
-wget --no-check-certificate -O /usr/bin/limit "https://github.com/woltfn/mx/raw/master/limit"
-chmod +x /usr/bin/limit
+rm -rf /usr/bin/usrtemp 2>/dev/null
+wget --no-check-certificate -O /usr/bin/usrtemp  "https://github.com/woltfn/mx/raw/master/usrtemp"
+chmod +x /usr/bin/usrtemp
 
-rm -rf /usr/bin/cadastro 2>/dev/null
-wget --no-check-certificate -O /usr/bin/cadastro "https://github.com/woltfn/mx/raw/master/cadastro"
-chmod +x /usr/bin/cadastro
+rm -rf /usr/bin/expcleaner 2>/dev/null
+wget --no-check-certificate -O /usr/bin/expcleaner "https://github.com/woltfn/mx/raw/master/expcleaner"
+chmod +x /usr/bin/expcleaner
 
-rm -rf /usr/bin/redefine 2>/dev/null
-wget --no-check-certificate -O /usr/bin/redefine https://github.com/woltfn/mx/raw/master/redefine 
-chmod +x /usr/bin/redefine
+rm -rf /usr/bin/limiter 2>/dev/null
+wget --no-check-certificate -O /usr/bin/limiter "https://github.com/woltfn/mx/raw/master/limiter"
+chmod +x /usr/bin/limiter
+
+rm -rf /usr/bin/expcleaner 2>/dev/null
+wget --no-check-certificate -O /usr/bin/expcleaner "https://github.com/woltfn/mx/raw/master/expcleaner"
+chmod +x /usr/bin/expcleaner
+
+rm -rf /usr/bin/UserRedefine 2>/dev/null
+wget --no-check-certificate -O /usr/bin/UserRedefine https://github.com/woltfn/mx/raw/master/UserRedefine
+chmod +x /usr/bin/UserRedefine
 
 rm -rf /usr/bin/userlogin 2>/dev/null
 wget -o /dev/null -O- https://github.com/woltfn/mx/raw/master/userlogin> /usr/bin/userlogin
@@ -304,13 +311,13 @@ rm -rf /usr/bin/speedtest 2>/dev/null
 wget --no-check-certificate -O /usr/bin/speedtest https://github.com/woltfn/mx/raw/master/speedtest 
 chmod +x /usr/bin/speedtest
 
-rm -rf /usr/bin/host 2>/dev/null
-wget --no-check-certificate -O /usr/bin/host https://github.com/woltfn/mx/raw/master/host 
-chmod +x /usr/bin/host
+rm -rf /usr/bin/add-host 2>/dev/null
+wget --no-check-certificate -O /usr/bin/add-host https://github.com/woltfn/mx/raw/master/add-host 
+chmod +x /usr/bin/add-host
 
-rm -rf /usr/bin/monitorar 2>/dev/null
-wget --no-check-certificate -O /usr/bin/monitorar https://github.com/woltfn/mx/raw/master/monitorar 
-chmod +x /usr/bin/monitorar
+rm -rf /usr/bin/monitor 2>/dev/null
+wget --no-check-certificate -O /usr/bin/monitor https://github.com/woltfn/mx/raw/master/monitor 
+chmod +x /usr/bin/monitor
 
 rm -rf /usr/bin/sshmon 2>/dev/null
 wget --no-check-certificate -O /usr/bin/sshmon https://github.com/woltfn/mx/raw/master/sshmon  
@@ -336,10 +343,15 @@ rm -rf /usr/bin/ligapy 2>/dev/null
 wget --no-check-certificate -O /usr/bin/ligapy https://github.com/woltfn/mx/raw/master/ligapy
 chmod +x /usr/bin/ligapy
 
+rm -rf /usr/bin/del-host 2>/dev/null
+wget --no-check-certificate -O /usr/bin/del-host https://github.com/woltfn/mx/raw/master/del-host
+chmod +x /usr/bin/del-host
 
-echo "@reboot root /usr/bin/ clientesctl
-* */6 * * * root clientesctl" > /etc/cron.d/clientesctl
+rm -rf /usr/bin//userkillt 2>/dev/null
+wget --no-check-certificate -O /usr/bin//userkill https://github.com/woltfn/mx/raw/master/del-host
+chmod +x /usr/bin/userkill
 
+#CRON
 echo "@reboot root /usr/bin/ ligapy
 echo "0 1 * * * root ligapy" > /etc/cron.d/ligapy
 
