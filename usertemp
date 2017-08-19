@@ -1,0 +1,53 @@
+#!/bin/bash
+
+tmpusr () {
+time="$1"
+timer=$(( $time * 60 ))
+timer2="'$timer's"
+echo "#!/bin/bash
+sleep $timer2
+userkill $2
+rm -rf /tmp/$2
+exit" > /tmp/$2
+}
+
+
+
+echo -e "\033[1;32mNome do usuario:\033[0;37m"; read -p " " name
+if [ "$name" = "" ]; then
+echo -e "\033[1;31mNAO FOI DIGITADO UM NOME\033[0m"
+sleep 4s
+exit
+fi
+if cat /etc/passwd |grep $name: |grep -vi [a-z]$name |grep -v [0-9]$name > /dev/null
+then
+echo -e "\033[1;31mUsuario $name ja existe\033[0m"
+sleep 4s
+exit
+fi
+echo -e "\033[1;32mSenha para o usuario $name:\033[0;37m"; read -p " " pass
+echo -e "\033[1;32mTempo de Duração Em Minutos:\033[0;37m"; read -p " " tmp
+if [ "$tmp" = "" ]; then
+tmp="30"
+echo -e "\033[1;32mFoi Definido 30 minutos!\033[0m"
+sleep 2s
+fi
+useradd -M -s /bin/false $name
+(echo $pass; echo $pass)|passwd $name 2>/dev/null
+touch /tmp/$name
+tmpusr $tmp $name
+chmod 777 /tmp/$name
+touch /tmp/cmd
+chmod 777 /tmp/cmd
+echo "nohup /tmp/$name & >/dev/null" > /tmp/cmd
+/tmp/cmd 2>/dev/null 1>/dev/null
+rm -rf /tmp/cmd
+echo "TEMPORARIO" > /etc/VpsPackdir/senha/$name
+echo "999" > /etc/VpsPackdir/limite/$name
+echo -e "\033[1;36mCRIADO COM SUCESSO\033[0m"
+echo -e ""
+echo -e "\033[1;36mUsuario: \033[0m$name"
+echo -e "\033[1;36mSenha: \033[0m$pass"
+echo -e "\033[1;36mMinutos de Duracao: \033[0m$tmp"
+read -p "Para voltar Enter "
+exit
