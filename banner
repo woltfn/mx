@@ -1,12 +1,17 @@
 #!/bin/bash
-
-if echo -e "\033[1;32mDIGITE O BANNER:\033[0;37m"; read -p " " name
-
-then
-
-rm -rf /etc/issue.net 2>/dev/null touch /etc/issue.net && echo "$name">> /etc/issue.net
- echo -e "\033[1;32mBanner adicionado com sucesso!\033[0;37m";
-service dropbear restart > /dev/null 2> /dev/null
-fi
-
-
+#cores
+vermelhoo="\033[1;31m"
+verdee="\033[1;32m"
+amareloo="\033[1;33m"
+#cores
+touch /etc/dropbear/ban
+echo -e "$amareloo
+ESCREVA O NOVO BANNER!"
+read -p ": " banner
+echo -e "$banner" >> /etc/dropbear/ban
+mv -f /etc/dropbear/ban /etc/dropbear/banner
+service dropbear restart
+echo -e "$amareloo
+AGORA A MENSAGEM DO BANNER E $vermelhoo
+$banner \033[1;33m"
+exit
