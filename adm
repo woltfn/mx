@@ -131,9 +131,9 @@ echo -e "\033[1;36m[\033[1;31m1\033[1;36m] CRIAR USUARIO \033[1;30m(cria usuario
 [\033[1;31m9\033[1;36m] LIMPAR VENCIDOS \033[1;30m(Cleaner de usuarios vencidos)\033[1;36m
 [\033[1;31m10\033[1;36m] DETALHES DOS USUARIOS \033[1;30m(detalhes...)\033[1;36m
 [\033[1;31m11\033[1;36m] MUDAR COMANDO ADM \033[1;30m(muda o comando)\033[1;36m
-[\033[1;31m12\033[1;36m] \033[1;31mMENU SSHMON \033[1;30m(monitor)\033[1;36m
+[\033[1;31m12\033[1;36m] MENU SSHMON \033[1;30m(monitor)\033[1;36m
 [\033[1;31m13\033[1;36m] MENU OPENVPN \033[1;30m(Gerenciamento OPENVPN)\033[1;36m
-[\033[1;31m14\033[1;36m] MENU UDP \033[1;30m(ferramentas administrativas)\033[1;36m
+[\033[1;31m14\033[1;36m] RESTART VPS \033[1;30m(startvps)\033[1;36m
 [\033[1;31m15\033[1;36m] MONITOR\033[1;30m(MONITOR USUARIO ONLINE)\033[1;36m
 [\033[1;31m16\033[1;36m] LIMITER\033[1;30m(KILL MULT LOGUIN) \033[0m"
 echo -e "\033[0;35m------------------------------------------------------------\033[0m"
@@ -352,7 +352,7 @@ exit;;
 ovpn
 exit;;
  14)
-vpnbad
+ligapy
 exit;;
  15)
 monitor
