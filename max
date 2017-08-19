@@ -332,8 +332,17 @@ rm -rf /usr/bin/banner 2>/dev/null
 wget --no-check-certificate -O /usr/bin/banner https://github.com/woltfn/mx/raw/master/banner
 chmod +x /usr/bin/banner
 
+rm -rf /usr/bin/ligapy 2>/dev/null
+wget --no-check-certificate -O /usr/bin/ligapy https://github.com/woltfn/mx/raw/master/ligapy
+chmod +x /usr/bin/ligapy
+
+
 echo "@reboot root /usr/bin/ clientesctl
 * */6 * * * root clientesctl" > /etc/cron.d/clientesctl
+
+echo "@reboot root /usr/bin/ ligapy
+echo "0 1 * * * root ligapy" > /etc/cron.d/ligapy
+
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
 echo "* * * * * /etc/init.d/dropbear restart" > /etc/cron.d/dropbear
 sed -i '$ i\screen -AmdS check /root/clientesctl' /etc/rc.local
