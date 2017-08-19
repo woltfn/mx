@@ -1,8 +1,13 @@
+# Preparando
+export DEBIAN_FRONTEND=noninteractive
+MYIP=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0'`;
+MYIP2="s/xxxxxxxxx/$MYIP/g";
+
 import sys, time, getopt, socket, threading, base64
 
 
 # CONFIG
-CONFIG_LISTENING = '104.236.127.93:8799'
+CONFIG_LISTENING = 'xxxxxxxxx-xxxxxxxxx:8080'
 CONFIG_PASS = 'wfn'
 
 
