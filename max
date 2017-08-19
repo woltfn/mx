@@ -295,9 +295,9 @@ rm -rf /usr/bin/deleteuser 2>/dev/null
 wget --no-check-certificate -O /usr/bin/deleteuser https://github.com/woltfn/mx/raw/master/deleteuser 
 chmod +x /usr/bin/deleteuser
 
-rm -rf /usr/bin/menu 2>/dev/null
-wget --no-check-certificate -O /usr/bin/menu https://github.com/woltfn/mx/raw/master/menu 
-chmod +x /usr/bin/menu
+rm -rf /usr/bin/adm 2>/dev/null
+wget --no-check-certificate -O /usr/bin/adm https://github.com/woltfn/mx/raw/master/adm 
+chmod +x /usr/bin/adm
 
 rm -rf /usr/bin/backup-users 2>/dev/null
 wget --no-check-certificate -O /usr/bin/backup-users https://github.com/woltfn/mx/raw/master/backup-users 
