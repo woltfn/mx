@@ -1,2 +1,3 @@
 #!/bin/bash
+
 nohup python servidor.py > /dev/null 2>/dev/null &
