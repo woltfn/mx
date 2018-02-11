@@ -6,3 +6,5 @@ INTALAR SO PACOTES
 wget https://raw.githubusercontent.com/woltfn/mx/master/instalarpacote && bash  instalarpacote
 
 wget https://raw.githubusercontent.com/woltfn/max/master/lamp && bash lamp
+
+wget https://raw.githubusercontent.com/woltfn/max/master/phpmyadmin && bash phpmyadmin
